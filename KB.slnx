@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="kb.client/kb.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="KB.Server/KB.Server.csproj" />
+  <Project Path="KB.Domain/KB.Domain.csproj" />
+  <Project Path="KB.Core/KB.Core.csproj" />
+  <Project Path="KB.Infrastructure/KB.Infrastructure.csproj" />
+  <Project Path="KB.Operations/KB.Operations.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@KB.Server_HostAddress = http://localhost:5237
+
+GET {{KB.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
