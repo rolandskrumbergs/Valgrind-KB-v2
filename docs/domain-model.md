@@ -20,8 +20,8 @@ This document defines every entity, enum, value object, and their relationships 
 ┌─────────────────┐  ┌──────────────────┐  ┌───────────────────┐
 │   AI             │  │  KnowledgeBase    │  │  Content          │
 │   ──             │  │  ──────────────   │  │  ───────          │
-│   AiProfile      │  │  Document         │  │  Article          │
-│   AiInvocation   │  │                   │  │                   │
+│   AiProfile      │  │  KnowledgeBase    │  │  Article          │
+│   AiInvocation   │  │  Document         │  │                   │
 └─────────────────┘  └──────────────────┘  └───────────────────┘
 
 ┌─────────────────┐  ┌──────────────────┐
@@ -166,6 +166,7 @@ This document defines every entity, enum, value object, and their relationships 
 |----------|------|-------|
 | Name | string | Unique |
 | IsActive | bool | |
+| KnowledgeBaseId | Guid | FK → KnowledgeBase (which KB this AI searches) |
 | Model | string | LLM model name (e.g., "gpt-4o") |
 | TopK | int | Number of chunks to retrieve |
 | MinRelevanceThreshold | decimal | Minimum chunk relevance score (0-1) |
@@ -196,15 +197,29 @@ This document defines every entity, enum, value object, and their relationships 
 
 ### KnowledgeBase Context
 
+#### KnowledgeBase : DomainEntity\<Guid\>, IAggregateRoot, ISoftDeletable, IAuditable
+
+| Property | Type | Notes |
+|----------|------|-------|
+| Name | string | Required, unique |
+| Slug | string | Required, unique — used in URLs and storage naming |
+| Description | string? | |
+| IsActive | bool | Default true |
+| BlobContainerName | string | Dedicated container for this knowledge base's documents |
+| SearchIndexPrefix | string | Prefix for Azure AI Search indexes (per category) |
+| CreatedByUserId | Guid | FK → ApplicationUser |
+| UpdatedByUserId | Guid | FK → ApplicationUser |
+
 #### Document : DomainEntity\<Guid\>, IAggregateRoot, IAuditable
 
 | Property | Type | Notes |
 |----------|------|-------|
+| KnowledgeBaseId | Guid | FK → KnowledgeBase |
 | FileName | string | |
 | FileSize | long | Bytes |
 | ContentType | string | MIME type |
 | Category | KnowledgeCategory (enum) | Books, Laws, LegalCases, Other |
-| BlobPath | string | Azure Blob Storage path |
+| BlobPath | string | Azure Blob Storage path (inside KB container) |
 | ContentHash | string | SHA-256, unique for dedup |
 | ChunkingPreset | string? | e.g., "set_a", "set_d" |
 | ProcessingStatus | ProcessingStatus (enum) | Uploaded, Processing, Completed, Failed |
@@ -376,6 +391,7 @@ Only aggregate roots have repositories. Child entities are managed through their
 | Course | Chapter → Question → QuestionOption |
 | AiProfile | (none) |
 | Article | (none) |
+| KnowledgeBase | (none) |
 | Document | (none) |
 | Enrollment | (none) |
 | ConversationStarter | (none) |

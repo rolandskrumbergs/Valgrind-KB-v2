@@ -49,7 +49,7 @@ Create all entities in `KB.Domain/Entities/` following property patterns from `.
 **Organization context**: Organization (aggregate root + Subscription children)
 **Conversation context**: Conversation (aggregate root + Message/Feedback children), UsageRecord, ConversationStarter
 **AI context**: AiProfile, AiInvocation
-**KnowledgeBase context**: Document
+**KnowledgeBase context**: KnowledgeBase, Document
 **Content context**: Article
 **Education context**: Course (aggregate root + Chapter → Question → QuestionOption children), OrganizationCourse, Enrollment, QuestionAnswer
 **Purchase context**: Purchase
@@ -233,6 +233,8 @@ Each endpoint group follows: create Command/Query in `KB.Core/Features/{Feature}
 ### 3.2 — RAG Plugin (Knowledge Base Search)
 - Implement `KnowledgeBasePlugin` for Semantic Kernel
 - Azure AI Search integration with multi-index queries (books, laws, legalcases, other)
+- Index set selected by `AiProfile.KnowledgeBaseId` (each KnowledgeBase has isolated indexes)
+- Index naming: `{KnowledgeBase.SearchIndexPrefix}-{category}`
 - Hybrid search: vector + keyword + semantic ranking
 - Configurable topK and relevance thresholds from active AI profile
 - Format retrieved chunks with category tags and metadata
@@ -241,15 +243,18 @@ Each endpoint group follows: create Command/Query in `KB.Core/Features/{Feature}
 ### 3.3 — Document Ingestion Pipeline
 - Configure Microsoft Kernel Memory
 - Pipeline: Upload → Azure Blob → Chunk → Embed → Azure AI Search indexing
+- Route ingestion to the selected KnowledgeBase's blob container + search indexes
+- Kernel Memory index/collection name per KnowledgeBase (isolation)
 - Custom chunking strategies for Swedish legal documents (reference old system's 6 presets)
 - Background processing with status tracking on Document entity
 - Update ProcessingStatus, ProcessingProgress, ProcessingMetrics during pipeline
 - Re-chunking / re-indexing support
-- Content hash deduplication
+- Content hash deduplication (within a KnowledgeBase)
 
 ### 3.4 — Chat Orchestration Service
 - Build `ChatOrchestrationService` using Semantic Kernel `IChatCompletionService`
 - Tool-calling agentic loop with knowledge base search tool
+- Knowledge base routing via `AiProfile.KnowledgeBaseId`
 - SSE streaming via ASP.NET Core streaming response
 - Swedish "Lena" system prompt (migrate from old system)
 - Conversation context management (load history, manage token window)
@@ -267,15 +272,28 @@ Reference `docs/guardian-legal-ai-plan.md` for detailed specifications.
 - Use separate (cheaper) LLM for evaluation tasks
 - `ConfidenceThresholds` configuration from active AI profile
 
-### 3.6 — Document Management API
-**Feature folder**: `KB.Core/Features/Documents/`
-- `UploadDocumentCommand` + Handler (upload to blob + trigger pipeline)
+### 3.6 — Knowledge Base & Document Management API
+**Feature folders**:
+- `KB.Core/Features/KnowledgeBases/`
+- `KB.Core/Features/Documents/`
+
+Knowledge bases:
+- `CreateKnowledgeBaseCommand` + Handler (provision blob container + search indexes)
+- `UpdateKnowledgeBaseCommand` + Handler
+- `DeleteKnowledgeBaseCommand` + Handler (soft-delete)
+- `GetKnowledgeBaseByIdQuery` + Handler → `KnowledgeBaseViewModel`
+- `GetKnowledgeBasesQuery` + Handler
+
+Documents (scoped to knowledge base):
+- `UploadDocumentCommand` + Handler (upload to KB container + trigger pipeline)
 - `DeleteDocumentCommand` + Handler (delete blob + vectors + record)
 - `ReprocessDocumentCommand` + Handler
 - `GetDocumentByIdQuery` + Handler → `DocumentViewModel`
 - `GetDocumentsQuery` + Handler (paginated with status/category filters)
 
-**Endpoints**: `KB.Server/Endpoints/Documents/DocumentEndpoints.cs`
+**Endpoints**:
+- `KB.Server/Endpoints/KnowledgeBases/KnowledgeBaseEndpoints.cs`
+- `KB.Server/Endpoints/KnowledgeBases/Documents/DocumentEndpoints.cs`
 
 ---
 
@@ -375,7 +393,7 @@ Reference `docs/guardian-legal-ai-plan.md` for detailed specifications.
 ### 5.5 — Content Management Pages
 - **Article editor**: TipTap rich text, image upload, PDF attachment, org exclusion targeting, publish/unpublish
 - **Course editor**: Chapter management with video URLs, question editor with options, org sharing, publish/unpublish
-- **Knowledge base**: File upload with category + chunk preset selection, processing status tracker, document list with filters
+- **Knowledge bases**: Create/manage knowledge bases (isolated storage), select KB, file upload with category + chunk preset selection, processing status tracker, document list with filters
 
 ### 5.6 — Entity Management Pages
 - **Organizations**: CRUD, seat allocation, member list, shared courses
@@ -434,9 +452,10 @@ Write migration scripts (can be in KB.Operations or standalone) to transfer data
 - UserCourses → Enrollments
 - CoursePurchases + ChatTokensPurchases → unified Purchases
 - LenaProfiles → AiProfiles
+- KnowledgeBases: create default KnowledgeBase and assign migrated Documents to it
 - KnowledgeFiles → Documents (file references only)
-- Blob migration: AWS S3 → Azure Blob Storage
-- Vector re-indexing: re-embed all documents into Azure AI Search
+- Blob migration: AWS S3 → Azure Blob Storage (into the default KB container)
+- Vector re-indexing: re-embed all documents into Azure AI Search (per KnowledgeBase)
 - Validation: row counts, FK integrity, spot-check data quality
 
 ### 7.2 — Telemetry

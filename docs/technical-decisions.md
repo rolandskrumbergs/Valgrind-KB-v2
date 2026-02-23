@@ -103,7 +103,21 @@ This document captures key architectural and technical decisions for the KB plat
 - **Scale**: Better suited for production legal document retrieval
 - **Azure ecosystem**: Consistent with other Azure services (Blob, App Insights)
 
-**Key difference**: The old system uses 4 separate Upstash indexes. Azure AI Search will maintain the same 4-index pattern (books, laws, legalcases, other) for category-specific retrieval.
+**Key difference**: The old system uses 4 separate Upstash indexes. Azure AI Search will maintain the same 4-index pattern (books, laws, legalcases, other) per KnowledgeBase for category-specific retrieval.
+
+## 7.1 Multiple Knowledge Bases (Isolated Storage)
+
+**Decision**: Support multiple `KnowledgeBase` definitions. Each KnowledgeBase has isolated document storage (dedicated Azure Blob container) and isolated vector storage (a dedicated set of Azure AI Search indexes), while sharing the main PostgreSQL metadata database.
+
+**Why**:
+- Enables scaling KB management across multiple apps/products without cross-contamination
+- Allows per-product lifecycle (create/disable/delete) and independent growth of indexes and storage
+
+**Implementation**:
+- Add `KnowledgeBase` entity with `BlobContainerName` and `SearchIndexPrefix`
+- `Document` includes `KnowledgeBaseId`
+- `AiProfile` includes `KnowledgeBaseId` to route retrieval/ingestion
+- Index naming: `{SearchIndexPrefix}-{category}` (books, laws, legalcases, other)
 
 ---
 

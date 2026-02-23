@@ -660,11 +660,13 @@ options.AddPolicy("RequireActiveSubscription", p => p.RequireAssertion(ctx => ..
 - (Detailed in guardian-legal-ai-plan.md)
 
 **3.6 — document-management-api**: Knowledge base CRUD
-- `GET    /api/documents` — list with status filters, category filters
-- `POST   /api/documents/upload` — upload + trigger ingestion pipeline
-- `GET    /api/documents/{id}` — detail with processing status & metrics
-- `DELETE /api/documents/{id}` — delete file + vectors + blob
-- `POST   /api/documents/{id}/reprocess` — re-trigger ingestion
+- `GET    /api/knowledge-bases` — list knowledge bases
+- `POST   /api/knowledge-bases` — create knowledge base (provisions isolated storage)
+- `GET    /api/knowledge-bases/{knowledgeBaseId}/documents` — list docs with status/category filters
+- `POST   /api/knowledge-bases/{knowledgeBaseId}/documents/upload` — upload + trigger ingestion pipeline
+- `GET    /api/knowledge-bases/{knowledgeBaseId}/documents/{id}` — detail with processing status & metrics
+- `DELETE /api/knowledge-bases/{knowledgeBaseId}/documents/{id}` — delete file + vectors + blob
+- `POST   /api/knowledge-bases/{knowledgeBaseId}/documents/{id}/reprocess` — re-trigger ingestion
 
 ### Phase 4: Consumer API (for kb-app + web users)
 

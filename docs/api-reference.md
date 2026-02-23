@@ -130,15 +130,27 @@ All auth endpoints are public (no JWT required) unless noted.
 | GET | `/api/conversation-starters` | List all |
 | POST | `/api/conversation-starters` | Create/update (bulk replace) |
 
-### Documents (Knowledge Base)
+### Knowledge Bases
 
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
-| GET | `/api/documents` | List with status/category filters |
-| POST | `/api/documents/upload` | Upload + trigger ingestion pipeline |
-| GET | `/api/documents/{id}` | Detail with processing status & metrics |
-| DELETE | `/api/documents/{id}` | Delete file + vectors + blob |
-| POST | `/api/documents/{id}/reprocess` | Re-trigger ingestion |
+| GET | `/api/knowledge-bases` | List knowledge bases |
+| POST | `/api/knowledge-bases` | Create knowledge base (provisions isolated storage) |
+| GET | `/api/knowledge-bases/{id}` | Detail |
+| PUT | `/api/knowledge-bases/{id}` | Update |
+| DELETE | `/api/knowledge-bases/{id}` | Soft-delete |
+
+### Documents (Knowledge Base)
+
+Documents are always scoped to a specific KnowledgeBase.
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | `/api/knowledge-bases/{knowledgeBaseId}/documents` | List with status/category filters |
+| POST | `/api/knowledge-bases/{knowledgeBaseId}/documents/upload` | Upload + trigger ingestion pipeline |
+| GET | `/api/knowledge-bases/{knowledgeBaseId}/documents/{id}` | Detail with processing status & metrics |
+| DELETE | `/api/knowledge-bases/{knowledgeBaseId}/documents/{id}` | Delete file + vectors + blob |
+| POST | `/api/knowledge-bases/{knowledgeBaseId}/documents/{id}/reprocess` | Re-trigger ingestion |
 
 ### Analytics
 

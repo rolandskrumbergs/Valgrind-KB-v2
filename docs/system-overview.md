@@ -126,12 +126,14 @@ Dependencies flow inward only: Server → Infrastructure → Core → Domain.
 - Swedish-language system prompts
 - Token usage tracking and per-user quotas
 
-### 2. Knowledge Base
-- Document upload → Azure Blob → Kernel Memory pipeline
+### 2. Knowledge Bases
+- Multiple knowledge bases (per app/product) managed by admins
+- Each KnowledgeBase has isolated storage: dedicated Azure Blob container + dedicated set of Azure AI Search indexes
+- Document upload → Azure Blob → Kernel Memory pipeline (routed by KnowledgeBase)
 - Chunking (configurable presets) → Embedding → Azure AI Search indexing
-- 4 category-specific indexes: books, laws, legalcases, other
+- 4 category-specific indexes per KnowledgeBase: books, laws, legalcases, other
 - Processing status tracking with per-stage metrics
-- Content hash deduplication
+- Content hash deduplication (within a KnowledgeBase)
 
 ### 3. Articles (News)
 - Rich text editor (TipTap) with HTML storage
