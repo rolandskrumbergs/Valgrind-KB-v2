@@ -1,0 +1,1 @@
+ALTER TABLE "customer_courses" ADD CONSTRAINT "customer_courses_customer_id_course_id_pk" PRIMARY KEY("customer_id","course_id");

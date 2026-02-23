@@ -1,0 +1,422 @@
+{
+  "general": {
+    "read": "Read",
+    "continue": "Continue",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month",
+    "older": "Older",
+    "empty": "No chats available",
+    "error": "Error loading chats: {{error}}",
+    "allChats": "All Chats",
+    "myCertificates": "My Certificates",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}} min ago",
+    "hoursAgo": "{{count}} hrs ago",
+    "daysAgo": "{{count}} days ago",
+    "dayAgo": "1 day ago"
+  },
+  "welcome": {
+    "title": "The Digital Support You Need",
+    "subtitle": "For legal guardians and trustees",
+    "login": "LOG IN",
+    "register": "REGISTER"
+  },
+  "signin": {
+    "title": "Sign in to IB",
+    "subtitle": "Enter your details to sign in",
+    "email": "Email",
+    "password": "Password",
+    "placeholder": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    },
+    "submit": "Log In",
+    "backToStart": "Back to Start",
+    "loading": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot your password?",
+    "resetPassword": "Reset Password",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "signInFailed": "Failed to sign in. Please check your credentials."
+    }
+  },
+  "signup": {
+    "title": "Create account",
+    "subtitle": "Fill in your details to register",
+    "name": "Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "securityNumber": "Personal Number",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "gdprConsent": "By registering, you agree that we process your personal data in accordance with our privacy policy. Your data is only used to provide our services, communicate with you and improve the user experience. You can at any time request access to, correction of or deletion of your data.",
+    "readPrivacyPolicy": "Read privacy policy",
+    "placeholder": {
+      "name": "Enter your name",
+      "lastName": "Enter your last name",
+      "email": "Enter your email",
+      "securityNumber": "Enter your personal number",
+      "password": "Enter your password",
+      "confirmPassword": "Confirm your password"
+    },
+    "submit": "Sign Up",
+    "backToStart": "Back to Start",
+    "alreadyAccount": "Already have an account?",
+    "login": "Log In",
+    "errors": {
+      "required": "{{field}} is required",
+      "passwordMismatch": "Passwords do not match",
+      "signupFailed": "Failed to create account. Please try again.",
+      "signinFailed": "Account created but couldn't sign in. Please go to login.",
+      "nameRequired": "Name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "securityNumberRequired": "Personal number is required",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Please confirm your password",
+      "confirmPasswordMismatch": "Passwords must match",
+      "gdprConsentRequired": "You must agree to the terms and conditions"
+    },
+    "loading": "Signing up..."
+  },
+  "dashboard": {
+    "greeting": "Hello {{name}}",
+    "lenaTitle": "Lena AI",
+    "lenaDescription": "An advanced AI model developed and trained by Intressebevakaran to help you with any questions regarding guardianship.",
+    "startChat": "Start New Chat with Lena",
+    "recentChats": "Recent Lena Chats",
+    "viewAll": "View All",
+    "latestNews": "Latest News from IBBEN"
+  },
+  "home": {
+    "welcomeTitle": "WELCOME",
+    "welcomeSubtitle": "Digital mentor for legal guardians and trustees",
+    "basicTrainingTitle": "BASIC TRAINING",
+    "basicTrainingSubtitle": "Here you can be part of our basic training for legal...",
+    "coursesTitle": "COURSES",
+    "lenaTitle": "LENA AI CHAT",
+    "lenaSubtitle": "Your digital expert and advisor in guardianship...",
+    "lenaLink": "Read more",
+    "latestConversationsTitle": "LATEST CONVERSATIONS",
+    "latestNewsTitle": "LATEST NEWS"
+  },
+  "chat": {
+    "title": "Lena AI Chat",
+    "warning": "Never share personal identity numbers, health information, bank details, or other sensitive personal data in the chat. Everything you type may be logged and used to improve the service.",
+    "placeholder": "Type your message...",
+    "limit_title": "Limit Reached",
+    "limit_message": "You've exceeded your token quota for today. Please try again tomorrow or contact support.",
+    "limit_ok": "OK",
+    "loading": "Loading",
+    "please_wait": "Please wait while we check your token availability...",
+    "no_tokens_title": "No Tokens Available",
+    "no_tokens_message": "You don't have enough tokens to send a message. Please try again later or contact support.",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "buy_tokens": "Buy Tokens",
+    "error_title": "Error",
+    "error_checking_tokens": "Failed to check token availability. Please try again.",
+    "no_license_message": "Your chief guardian has not purchased a license for Intressebevakaren's AI specialized in guardianship. You can only receive a license from your chief guardian.",
+    "info_title": "Information",
+    "info_message": "Information about Lena AI will be added here. This will be specified later.",
+    "warning_title": "Warning",
+    "warning_message": "Important warnings and safety information will be added here. This will be specified later."
+  },
+  "news": {
+    "allNews": "All News",
+    "read": "Read",
+    "readMore": "Read more",
+    "news": "News",
+    "errorLoading": "Error loading news",
+    "noNews": "No news data available",
+    "newArticle": "Read the latest news and updates...",
+    "by": "By",
+    "attachments": "Attachments",
+    "allUsers": "All users"
+  },
+  "profile": {
+    "title": "Profile",
+    "userInfoTitle": "User Information",
+    "name": "Name",
+    "email": "Email",
+    "organization": "Organization",
+    "licenseStatus": "License Status",
+    "hasLicense": "Active License",
+    "noLicense": "No License",
+    "chatTokens": "Extra Chat Tokens",
+    "chatTokensRemaining": "Chat tokens remaining",
+    "dailyTokens": "Daily Tokens",
+    "extraChatTokens": "Extra Chat Tokens",
+    "totalTokensUsed": "Total Used Tokens",
+    "settingsTitle": "Settings & Information",
+    "securityTitle": "Security",
+    "contact": "Contact us",
+    "privacy": "Privacy Policy (GDPR)",
+    "logout": "Log out",
+    "deleteAccount": "Delete account",
+    "deleteAccountConfirmTitle": "Delete Account",
+    "deleteAccountConfirmMessage": "Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "ok": "OK",
+    "deleteAccountErrorTitle": "Error",
+    "deleteAccountError": "Failed to delete account. Please try again.",
+    "extraChat": {
+      "title": "Extra AI chat",
+      "description": "If you have used your allocated chat for the day, you can easily buy more!",
+      "details": "With an extra purchase of 49 kr, you get the same amount of AI chat as you are allocated per day.",
+      "benefits": "This is a good option if you need to:",
+      "benefit1": "Get more answers from the AI today and cannot wait until tomorrow.",
+      "benefit2": "",
+      "benefit3": "",
+      "price": "Price: 49 kr",
+      "access": "Access: Immediate – activated directly after purchase.",
+      "buyButton": "Buy extra chat",
+      "explanation": "The reason why almost all AI chats have a limited number of questions and answers is because, unlike regular IT, AI is significantly more expensive to run. In addition, there needs to be an IT security safeguard to prevent malicious attacks.",
+      "hasTokensTitle": "Tokens Available",
+      "hasTokensMessage": "You still have tokens available. You can only purchase extra tokens when you have no tokens left."
+    }
+  },
+  "language": "Language",
+  "questionForm": {
+    "submit": "Submit Answers",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "validation": {
+      "selectOption": "Please select an option for this question."
+    }
+  },
+  "lessonScreen": {
+    "loading": "Loading lesson...",
+    "notFound": "Lesson not found.",
+    "goToOutline": "Go to Course Outline",
+    "next": "Next"
+  },
+  "education": {
+    "title": "Education",
+    "tabs": {
+      "all": "All",
+      "ongoing": "Ongoing",
+      "finished": "Finished"
+    }
+  },
+  "coursesList": {
+    "loading": "Loading courses...",
+    "empty": "No courses available at the moment.",
+    "finished": "Finished",
+    "score": "My score",
+    "ongoing": "Ongoing",
+    "doCourse": "Do the course",
+    "completedOn": "Completed"
+  },
+  "courseCompletion": {
+    "title": "Course is finished",
+    "titlePassed": "Congratulations!",
+    "titleFailed": "Course Completed",
+    "titleCompleted": "Congratulations!",
+    "subtitle": "Find your certificate under",
+    "certLink": "\"My certificates\"",
+    "button": "Go to Courses",
+    "yourScore": "Your Score",
+    "requiredScore": "Required to pass: {{score}}%",
+    "passedMessage": "You passed! Your certificate is now available under",
+    "failedMessage": "Unfortunately, you did not reach the required score. You can retake the course to try again.",
+    "completedMessage": "Congratulations on completing the course!",
+    "certificateAvailable": "Your certificate is now available under"
+  },
+  "courseDetail": {
+    "start": "Start Course",
+    "continue": "Continue",
+    "restart": "Restart",
+    "freeAccess": "You have access to this course for free. Start learning when you're ready.",
+    "inProgress": "You've already started this course. You can continue where you left off.",
+    "completed": "You have completed this course. If you'd like to start again, press \"Reset course\".",
+    "free": "Free",
+    "certificateAvailable": "Certificate available",
+    "unlock": "Unlock course for {{price}} kr",
+    "loading": "Loading course details...",
+    "notFound": "Course not found.",
+    "goBack": "Go Back",
+    "close": "Close",
+    "errorTitle": "Error Loading Course",
+    "errorMessage": "We couldn't load the course details. Please try again later."
+  },
+  "certificates": {
+    "title": "My Certificates",
+    "description": "Your certificates show all your finished educations.",
+    "viewSubtitle": "See your completed certificates here",
+    "shareButton": "Share Certificate",
+    "noCertificates": "No certificates available yet.",
+    "certificateTitle": "CERTIFICATE",
+    "certifies": "This certifies that",
+    "completed": "Completed",
+    "share": "Share",
+    "download": "Download",
+    "downloadSuccess": "Certificate saved successfully",
+    "downloadError": "Could not save certificate. Opening in browser instead."
+  },
+  "certificateItem": {
+    "title": "Date of course completion:",
+    "score": "My score:"
+  },
+  "privacy": {
+    "title": "Privacy Policy (GDPR)",
+    "sharing": {
+      "title": "Do not share sensitive information",
+      "description": "Warning: Never share personal identity numbers, health information, bank or card details, passwords or other sensitive personal data in the chat. All text you enter may be logged and used to improve the service."
+    },
+    "rights": {
+      "title": "Your rights as a data subject",
+      "description": "Under the EU General Data Protection Regulation (GDPR), you have the right to:",
+      "list": [
+        "1. Right to information and transparency – you have the right to know what data we collect, why, and how long we store it.",
+        "2. Right to access – you can request a copy of your personal data.",
+        "3. Right to rectification – ask us to correct incorrect or incomplete data.",
+        "4. Right to erasure – request deletion of your data if there is no legal basis for retaining it.",
+        "5. Right to restriction of processing – request limited processing if you question the data's accuracy.",
+        "6. Right to data portability – receive your data in a machine-readable format.",
+        "7. Right to withdraw consent – you may withdraw your consent at any time.",
+        "8. Right to lodge a complaint – you can file a complaint with IMY if you believe your data was mishandled."
+      ],
+      "title2": "What happens to my data if I stop using the app or my license is revoked?",
+      "list2": [
+        "Deleted: We remove your personal data, such as name, email, profile, chats, and course progress.",
+        "Retained for a period: Certain data, such as receipts, invoices, and logs, must be stored for accounting and security purposes. These are kept for at least 7 years in accordance with the law.",
+        "Anonymization: Data that must be stored due to legal requirements is anonymized as far as possible.",
+        "After legal requirements: Once the statutory retention period has passed, all data is permanently deleted or anonymized."
+      ]
+    },
+    "storage": {
+      "title": "Stored data",
+      "points": [
+        "Chat logs are anonymized or deleted regularly after the session ends.",
+        "Email addresses and support tickets are stored only to improve support services."
+      ]
+    }
+  },
+  "contact": {
+    "title": "Contact us",
+    "description": "If you have questions about our service, want to exercise your GDPR rights, or have support inquiries, feel free to contact us:",
+    "emailLabel": "Email",
+    "postLabel": "Postal address",
+    "responseNote": "We usually respond within 2 working days. For certain requests, we may need to verify your identity.",
+    "errorTitle": "Error",
+    "errorMessage": "Could not open email client."
+  },
+  "overview": {
+    "intro": "Meet Lena, your trusted digital expert and advisor in Swedish guardianship, legal matters, and financial administration. With her deep knowledge of Swedish legislation and practical experience, Lena provides personalized guidance to help you navigate complex administrative tasks with confidence.",
+    "start": "Start a conversation with Lena today and get the support you need! 😊",
+    "thinking": "Thinking...",
+    "searching": "Looking in my knowledge base..."
+  },
+  "feedback": {
+    "title": "Send Feedback",
+    "description": "We value your feedback. Please let us know if you have any suggestions, questions, or concerns.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "placeholder": {
+      "name": "Enter your name",
+      "email": "Enter your email",
+      "subject": "Enter subject",
+      "message": "Enter your message (minimum 10 characters)"
+    },
+    "submit": "Send Feedback",
+    "sending": "Sending...",
+    "successTitle": "Success",
+    "successMessage": "Thank you for your feedback! We'll get back to you soon.",
+    "ok": "OK",
+    "submitError": "Failed to send feedback. Please try again.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "subjectRequired": "Subject is required",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters"
+    }
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "description": "Enter your email address and we'll send you a link to reset your password.",
+    "email": "Email",
+    "placeholder": {
+      "email": "Enter your email"
+    },
+    "submit": "Send Reset Link",
+    "sending": "Sending...",
+    "successMessage": "If an account with that email exists, we've sent a password reset link.",
+    "rememberPassword": "Remember your password?",
+    "backToLogin": "Back to Login",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "submitError": "Failed to send reset email. Please try again."
+    }
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "description": "Enter your new password below.",
+    "password": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "placeholder": {
+      "password": "Enter your new password",
+      "confirmPassword": "Confirm your new password"
+    },
+    "submit": "Reset Password",
+    "resetting": "Resetting...",
+    "successMessage": "Your password has been successfully reset. You can now log in with your new password.",
+    "backToLogin": "Back to Login",
+    "errors": {
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Please confirm your password",
+      "confirmPasswordMismatch": "Passwords must match",
+      "invalidToken": "Invalid or expired reset token",
+      "submitError": "Failed to reset password. Please try again."
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "tabs": {
+    "home": "Home",
+    "education": "Education",
+    "lenaAI": "Lena AI",
+    "profile": "Profile"
+  },
+  "alerts": {
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidFormat": "Invalid format",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be no more than {{max}} characters",
+    "passwordMismatch": "Passwords do not match"
+  }
+}

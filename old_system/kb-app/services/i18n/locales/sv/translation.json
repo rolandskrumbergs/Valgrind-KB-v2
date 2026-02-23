@@ -1,0 +1,422 @@
+{
+  "general": {
+    "read": "Läs",
+    "continue": "Fortsätt",
+    "today": "Idag",
+    "yesterday": "Igår",
+    "lastWeek": "Förra veckan",
+    "lastMonth": "Förra månaden",
+    "older": "Äldre",
+    "empty": "Inga chattar tillgängliga",
+    "error": "Fel vid inläsning av chattar: {{error}}",
+    "allChats": "Alla chattar",
+    "myCertificates": "Mina certifikat",
+    "justNow": "Just nu",
+    "minutesAgo": "{{count}} min sedan",
+    "hoursAgo": "{{count}} tim sedan",
+    "daysAgo": "{{count}} dagar sedan",
+    "dayAgo": "1 dag sedan"
+  },
+  "welcome": {
+    "title": "Digital mentor för gode män och förvaltare",
+    "subtitle": "För dig som är god man eller förvaltare",
+    "login": "LOGGA IN",
+    "register": "REGISTRERA"
+  },
+  "signin": {
+    "title": "Logga in på IB",
+    "subtitle": "Ange dina uppgifter för att logga in",
+    "email": "E-post",
+    "password": "Lösenord",
+    "placeholder": {
+      "email": "Ange din e-post",
+      "password": "Ange ditt lösenord"
+    },
+    "submit": "Logga in",
+    "backToStart": "Tillbaka till start",
+    "loading": "Loggar in...",
+    "noAccount": "Har du inget konto?",
+    "signUp": "Skapa konto",
+    "forgotPassword": "Glömt ditt lösenord?",
+    "resetPassword": "Återställ lösenord",
+    "errors": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ogiltigt e-postformat",
+      "passwordRequired": "Lösenord krävs",
+      "passwordMinLength": "Lösenordet måste vara minst 6 tecken",
+      "signInFailed": "Det gick inte att logga in. Kontrollera dina uppgifter."
+    }
+  },
+  "signup": {
+    "title": "Skapa konto",
+    "subtitle": "Fyll i dina uppgifter för att registrera dig",
+    "name": "Namn",
+    "lastName": "Efternamn",
+    "email": "E-post",
+    "securityNumber": "Personnummer",
+    "password": "Lösenord",
+    "confirmPassword": "Bekräfta lösenord",
+    "gdprConsent": "Genom att registrera dig godkänner du att vi behandlar dina personuppgifter i enlighet med vår integritetspolicy. Dina uppgifter används endast för att tillhandahålla våra tjänster, kommunicera med dig samt förbättra användarupplevelsen. Du kan när som helst begära tillgång till, rättelse av eller radering av dina uppgifter.",
+    "readPrivacyPolicy": "Läs integritetspolicy",
+    "placeholder": {
+      "name": "Ange ditt namn",
+      "lastName": "Ange ditt efternamn",
+      "email": "Ange din e-post",
+      "securityNumber": "Ange ditt personnummer",
+      "password": "Ange ditt lösenord",
+      "confirmPassword": "Bekräfta ditt lösenord"
+    },
+    "submit": "Skapa konto",
+    "backToStart": "Tillbaka till start",
+    "alreadyAccount": "Har du redan ett konto?",
+    "login": "Logga in",
+    "errors": {
+      "required": "{{field}} krävs",
+      "passwordMismatch": "Lösenorden matchar inte",
+      "signupFailed": "Det gick inte att skapa konto. Försök igen.",
+      "signinFailed": "Kontot skapades men kunde inte logga in. Gå till inloggning.",
+      "nameRequired": "Namn krävs",
+      "lastNameRequired": "Efternamn krävs",
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ogiltigt e-postformat",
+      "securityNumberRequired": "Personnummer krävs",
+      "passwordRequired": "Lösenord krävs",
+      "passwordMinLength": "Lösenordet måste vara minst 6 tecken",
+      "confirmPasswordRequired": "Bekräfta ditt lösenord",
+      "confirmPasswordMismatch": "Lösenorden måste matcha",
+      "gdprConsentRequired": "Du måste godkänna villkoren"
+    },
+    "loading": "Skapar konto..."
+  },
+  "dashboard": {
+    "greeting": "Hej {{name}}",
+    "lenaTitle": "Lena AI",
+    "lenaDescription": "En avancerad AI-modell utvecklad och tränad av Intressebevakaren för att hjälpa dig med frågor om godmanskap.",
+    "startChat": "Starta nytt samtal med Lena",
+    "recentChats": "Senaste Lena-samtal",
+    "viewAll": "Visa alla",
+    "latestNews": "Senaste nyheter från IBBEN"
+  },
+  "home": {
+    "welcomeTitle": "VÄLKOMMEN",
+    "welcomeSubtitle": "Digital mentor för gode män och förvaltare",
+    "basicTrainingTitle": "GRUNDUTBILDNING",
+    "basicTrainingSubtitle": "Här kan du ta del av vår grundutbildning för gode...",
+    "coursesTitle": "UTBILDNINGAR",
+    "lenaTitle": "LENA AI CHATT",
+    "lenaSubtitle": "Din digitala expert och rådgivare inom godmanskap...",
+    "lenaLink": "Läs mer",
+    "latestConversationsTitle": "SENASTE KONVERSATIONER",
+    "latestNewsTitle": "SENASTE NYTT"
+  },
+  "chat": {
+    "title": "Lena AI Chatt",
+    "warning": "Dela aldrig personnummer, hälsouppgifter, bankuppgifter eller andra känsliga personuppgifter i chatten. All text du matar in kan komma att loggas och användas för att förbättra tjänsten.",
+    "placeholder": "Skriv ditt meddelande...",
+    "limit_title": "Gräns nådd",
+    "limit_message": "Du har överskridit din tokenkvot för idag. Försök igen i morgon eller kontakta supporten.",
+    "limit_ok": "Okej",
+    "loading": "Laddar",
+    "please_wait": "Vänligen vänta medan vi kontrollerar din token-tillgänglighet...",
+    "no_tokens_title": "Inga tokens tillgängliga",
+    "no_tokens_message": "Du har inte tillräckligt med tokens för att skicka ett meddelande. Försök igen senare eller kontakta supporten.",
+    "ok": "Okej",
+    "cancel": "Avbryt",
+    "buy_tokens": "Köp tokens",
+    "error_title": "Fel",
+    "error_checking_tokens": "Det gick inte att kontrollera token-tillgänglighet. Försök igen.",
+    "no_license_message": "Din överförmyndare har inte köpt licens för Intressebevakarens ai som är specialiserad på god man och förvaltare. Du kan endast få licens av din överförmyndare.",
+    "info_title": "Information",
+    "info_message": "Information om Lena AI kommer här. Detta kommer att specificeras senare.",
+    "warning_title": "Varning",
+    "warning_message": "Viktiga varningar och säkerhetsinformation kommer här. Detta kommer att specificeras senare."
+  },
+  "news": {
+    "allNews": "Alla nyheter",
+    "read": "Läs mer",
+    "readMore": "Läs mer",
+    "news": "Nyheter",
+    "errorLoading": "Fel vid inläsning av nyheter",
+    "noNews": "Inga nyheter tillgängliga",
+    "newArticle": "Läs de senaste nyheterna och uppdateringarna...",
+    "by": "Av",
+    "attachments": "Bilagor",
+    "allUsers": "Alla användare"
+  },
+  "profile": {
+    "title": "Profil",
+    "userInfoTitle": "Användarinformation",
+    "name": "Namn",
+    "email": "E-post",
+    "organization": "Organisation",
+    "licenseStatus": "Licensstatus",
+    "hasLicense": "Aktiv licens",
+    "noLicense": "Ingen licens",
+    "chatTokens": "Extra chatt-tokens",
+    "chatTokensRemaining": "Chatt-token kvar",
+    "dailyTokens": "Dagliga tokens",
+    "extraChatTokens": "Extra chatt-tokens",
+    "totalTokensUsed": "Totalt antal använda tokens",
+    "settingsTitle": "Inställningar & information",
+    "securityTitle": "Säkerhet",
+    "contact": "Kontakta oss",
+    "privacy": "Integritetspolicy (GDPR)",
+    "logout": "Logga ut",
+    "deleteAccount": "Avsluta mitt konto",
+    "deleteAccountConfirmTitle": "Avsluta konto",
+    "deleteAccountConfirmMessage": "Är du säker på att du vill avsluta ditt konto? Denna åtgärd kan inte ångras och all din data kommer att raderas permanent.",
+    "cancel": "Avbryt",
+    "delete": "Radera",
+    "ok": "OK",
+    "deleteAccountErrorTitle": "Fel",
+    "deleteAccountError": "Kunde inte avsluta kontot. Försök igen.",
+    "extraChat": {
+      "title": "Extra AI-chatt",
+      "description": "Om du har använt din tilldelade chatt för dagen kan du enkelt köpa mer!",
+      "details": "Med ett extraköp på 49 kr får du lika mycket AI-chatt till som du är tilldelad per dag.",
+      "benefits": "Det här är ett bra alternativ om du behöver:",
+      "benefit1": "Få fler svar från AI:n idag och inte kan vänta på att fråga i morgon.",
+      "benefit2": "",
+      "benefit3": "",
+      "price": "Pris: 49 kr",
+      "access": "Tillgång: Omedelbar - aktiveras direkt efter köp.",
+      "buyButton": "Köp extra chatt",
+      "explanation": "Anledningen till att i princip alla AI-chattar har begränsat antal frågor och svar är för att AI till skillnad från vanlig it kostar betydligt mycket mer när man använder AI. Dessutom behöver det finnas en it-säkerhetsspärr mot för att undvika illvilliga attacker.",
+      "hasTokensTitle": "Tokens tillgängliga",
+      "hasTokensMessage": "Du har fortfarande tokens tillgängliga. Du kan bara köpa extra tokens när du inte har några tokens kvar."
+    }
+  },
+  "language": "Language",
+  "questionForm": {
+    "submit": "Skicka svar",
+    "correct": "Rätt",
+    "incorrect": "Fel",
+    "validation": {
+      "selectOption": "Vänligen välj ett alternativ för den här frågan."
+    }
+  },
+  "lessonScreen": {
+    "loading": "Laddar lektion...",
+    "notFound": "Lektion hittades inte.",
+    "goToOutline": "Gå till kursöversikt",
+    "next": "Nästa"
+  },
+  "education": {
+    "title": "Utbildning",
+    "tabs": {
+      "all": "Alla",
+      "ongoing": "Pågående",
+      "finished": "Avslutad"
+    }
+  },
+  "coursesList": {
+    "loading": "Laddar kurser...",
+    "empty": "Inga kurser tillgängliga för tillfället.",
+    "finished": "Avslutad",
+    "score": "Mitt resultat",
+    "ongoing": "Pågående",
+    "doCourse": "Gå utbildning",
+    "completedOn": "Avklarad"
+  },
+  "courseCompletion": {
+    "title": "Kursen är klar",
+    "titlePassed": "Grattis!",
+    "titleFailed": "Kursen avslutad",
+    "titleCompleted": "Grattis!",
+    "subtitle": "Hitta ditt certifikat under",
+    "certLink": "\"Mina certifikat\"",
+    "button": "Gå till kurser",
+    "yourScore": "Ditt resultat",
+    "requiredScore": "Krävs för godkänt: {{score}}%",
+    "passedMessage": "Du är godkänd! Ditt certifikat finns nu tillgängligt under",
+    "failedMessage": "Tyvärr nådde du inte det krävda resultatet. Du kan göra om kursen för att försöka igen.",
+    "completedMessage": "Grattis till att ha slutfört kursen!",
+    "certificateAvailable": "Ditt certifikat finns nu tillgängligt under"
+  },
+  "courseDetail": {
+    "start": "Starta kurs",
+    "continue": "Fortsätt",
+    "restart": "Starta om",
+    "freeAccess": "Du har tillgång till kursen gratis. Börja när du är redo.",
+    "inProgress": "Du har redan påbörjat kursen. Du kan fortsätta där du slutade.",
+    "completed": "Du har slutfört kursen. Om du vill börja om, tryck på \"Starta om kurs\".",
+    "free": "Gratis",
+    "certificateAvailable": "Certifikat tillgängligt",
+    "unlock": "Lås upp kursen för {{price}} kr",
+    "loading": "Laddar kursinformation...",
+    "notFound": "Kursen hittades inte.",
+    "goBack": "Gå tillbaka",
+    "close": "Stäng",
+    "errorTitle": "Fel vid inläsning av kurs",
+    "errorMessage": "Vi kunde inte ladda kursinformationen. Försök igen senare."
+  },
+  "certificates": {
+    "title": "Mina certifikat",
+    "description": "Dina certifikat visar alla avslutade utbildningar.",
+    "viewSubtitle": "Se dina avklarade certifikat här",
+    "shareButton": "Dela certifikat",
+    "noCertificates": "Inga certifikat tillgängliga ännu.",
+    "certificateTitle": "CERTIFIKAT",
+    "certifies": "Detta intygar att",
+    "completed": "Slutförd",
+    "share": "Dela",
+    "download": "Ladda ner",
+    "downloadSuccess": "Certifikatet har sparats",
+    "downloadError": "Kunde inte spara certifikatet. Öppnar i webbläsaren istället."
+  },
+  "certificateItem": {
+    "title": "Datum för kursens slutförande:",
+    "score": "Mitt resultat:"
+  },
+  "privacy": {
+    "title": "Integritetspolicy (GDPR)",
+    "sharing": {
+      "title": "Dela inte känsliga uppgifter",
+      "description": "Varning: Tänk på att aldrig dela personnummer, hälsouppgifter, bank- eller betalkortsnummer, lösenord eller andra känsliga personuppgifter i chatten. All text du matar in kan komma att loggas och användas för att förbättra tjänsten."
+    },
+    "rights": {
+      "title": "Dina rättigheter som registrerad",
+      "description": "Under EU:s dataskyddsförordning (GDPR) har du rätt till:",
+      "list": [
+        "1. Rätt till information och insyn – du har rätt att få veta vilka uppgifter vi samlar in, varför och hur länge vi sparar dem.",
+        "2. Rätt till tillgång – du kan begära en kopia av dina personuppgifter.",
+        "3. Rätt till rättelse – be oss rätta felaktiga eller ofullständiga uppgifter.",
+        "4. Rätt till radering – be oss radera dina uppgifter om ingen laglig grund finns.",
+        "5. Rätt till begränsning – begär begränsad behandling om du ifrågasätter uppgifternas korrekthet.",
+        "6. Rätt till dataportabilitet – få dina uppgifter i maskinläsbart format.",
+        "7. Rätt att återkalla samtycke – du kan dra tillbaka ditt samtycke när som helst.",
+        "8. Rätt att inge klagomål – du kan klaga till IMY om du anser att vi behandlat dina uppgifter felaktigt."
+      ],
+      "title2": "Vad händer med mina uppgifter om jag slutar använda appen eller min licens tas bort?",
+      "list2": [
+        "Raderas: Vi tar bort dina personliga uppgifter, som namn, e-post, profil, chattar och kursprogression.",
+        "Behålls en tid: Vissa uppgifter, som kvitton, fakturor och loggar, måste sparas för bokföring och säkerhet. Dessa bevaras i minst 7 år enligt lag.",
+        "Anonymisering: Uppgifter som måste sparas för lagkrav görs anonyma så långt det är möjligt.",
+        "Efter lagkrav: När lagstadgad tid har passerat raderas eller anonymiseras allt permanent."
+      ]
+    },
+    "storage": {
+      "title": "Sparade uppgifter",
+      "points": [
+        "Loggar från chatten anonymiseras eller raderas senast regelbundet efter avslutad session.",
+        "E-postadresser och supportärenden sparas endast för att förbättra supporten."
+      ]
+    }
+  },
+  "contact": {
+    "title": "Kontakta oss",
+    "description": "Om du har frågor om vår tjänst, vill utöva dina rättigheter enligt GDPR eller har supportärenden, kontakta oss gärna:",
+    "emailLabel": "E-post",
+    "postLabel": "Postadress",
+    "responseNote": "Vi svarar normalt inom 2 arbetsdagar. För vissa begäranden kan vi behöva bekräfta din identitet.",
+    "errorTitle": "Fel",
+    "errorMessage": "Det gick inte att öppna e-postklienten."
+  },
+  "overview": {
+    "intro": "Möt Lena, din digitala expert och rådgivare inom godmanskap, juridiska frågor och ekonomisk förvaltning i Sverige. Med sin djupa kunskap om svensk lagstiftning och praktisk erfarenhet ger Lena personlig vägledning för att hjälpa dig att navigera i komplexa administrativa uppgifter med självförtroende.",
+    "start": "Starta en konversation med Lena idag och få det stöd du behöver! 😊",
+    "thinking": "Tänker...",
+    "searching": "Letar i min kunskapsbas..."
+  },
+  "feedback": {
+    "title": "Skicka feedback",
+    "description": "Vi värdesätter din feedback. Låt oss veta om du har några förslag, frågor eller funderingar.",
+    "name": "Namn",
+    "email": "E-post",
+    "subject": "Ämne",
+    "message": "Meddelande",
+    "placeholder": {
+      "name": "Ange ditt namn",
+      "email": "Ange din e-post",
+      "subject": "Ange ämne",
+      "message": "Ange ditt meddelande (minst 10 tecken)"
+    },
+    "submit": "Skicka feedback",
+    "sending": "Skickar...",
+    "successTitle": "Framgång",
+    "successMessage": "Tack för din feedback! Vi återkommer snart.",
+    "ok": "OK",
+    "submitError": "Det gick inte att skicka feedback. Försök igen.",
+    "errors": {
+      "nameRequired": "Namn krävs",
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ogiltigt e-postformat",
+      "subjectRequired": "Ämne krävs",
+      "messageRequired": "Meddelande krävs",
+      "messageMinLength": "Meddelandet måste vara minst 10 tecken"
+    }
+  },
+  "forgotPassword": {
+    "title": "Glömt lösenord",
+    "description": "Ange din e-postadress så skickar vi dig en länk för att återställa ditt lösenord.",
+    "email": "E-post",
+    "placeholder": {
+      "email": "Ange din e-post"
+    },
+    "submit": "Skicka återställningslänk",
+    "sending": "Skickar...",
+    "successMessage": "Om ett konto med den e-postadressen finns har vi skickat en länk för att återställa lösenordet.",
+    "rememberPassword": "Kommer du ihåg ditt lösenord?",
+    "backToLogin": "Tillbaka till inloggning",
+    "errors": {
+      "emailRequired": "E-post krävs",
+      "emailInvalid": "Ogiltigt e-postformat",
+      "submitError": "Det gick inte att skicka återställningslänk. Försök igen."
+    }
+  },
+  "resetPassword": {
+    "title": "Återställ lösenord",
+    "description": "Ange ditt nya lösenord nedan.",
+    "password": "Nytt lösenord",
+    "confirmPassword": "Bekräfta nytt lösenord",
+    "placeholder": {
+      "password": "Ange ditt nya lösenord",
+      "confirmPassword": "Bekräfta ditt nya lösenord"
+    },
+    "submit": "Återställ lösenord",
+    "resetting": "Återställer...",
+    "successMessage": "Ditt lösenord har återställts framgångsrikt. Du kan nu logga in med ditt nya lösenord.",
+    "backToLogin": "Tillbaka till inloggning",
+    "errors": {
+      "passwordRequired": "Lösenord krävs",
+      "passwordMinLength": "Lösenordet måste vara minst 6 tecken",
+      "confirmPasswordRequired": "Bekräfta ditt lösenord",
+      "confirmPasswordMismatch": "Lösenorden måste matcha",
+      "invalidToken": "Ogiltig eller utgången återställningstoken",
+      "submitError": "Det gick inte att återställa lösenordet. Försök igen."
+    }
+  },
+  "navigation": {
+    "back": "Tillbaka",
+    "close": "Stäng",
+    "cancel": "Avbryt",
+    "save": "Spara",
+    "edit": "Redigera",
+    "delete": "Ta bort",
+    "confirm": "Bekräfta",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "tabs": {
+    "home": "Hem",
+    "education": "Utbildning",
+    "lenaAI": "Lena AI",
+    "profile": "Profil"
+  },
+  "alerts": {
+    "error": "Fel",
+    "success": "Framgång",
+    "warning": "Varning",
+    "info": "Information",
+    "ok": "OK",
+    "cancel": "Avbryt"
+  },
+  "validation": {
+    "required": "Detta fält krävs",
+    "invalidEmail": "Ange en giltig e-postadress",
+    "invalidFormat": "Ogiltigt format",
+    "minLength": "Måste vara minst {{min}} tecken",
+    "maxLength": "Får inte vara mer än {{max}} tecken",
+    "passwordMismatch": "Lösenorden matchar inte"
+  }
+}

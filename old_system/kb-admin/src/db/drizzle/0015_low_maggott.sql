@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "requires_invitation_password_reset" boolean DEFAULT false NOT NULL;

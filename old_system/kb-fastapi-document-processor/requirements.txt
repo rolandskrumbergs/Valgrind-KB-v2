@@ -1,0 +1,11 @@
+fastapi==0.115.8
+uvicorn==0.34.0
+python-dotenv==1.0.1
+unstructured[docx,doc,pdf]==0.16.20
+sentence-transformers==3.4.1
+boto3==1.36.20
+pydantic==2.10.6
+pydantic-settings==2.7.1
+python-multipart==0.0.20     
+upstash-vector==0.7.1
+asyncpg==0.30.0

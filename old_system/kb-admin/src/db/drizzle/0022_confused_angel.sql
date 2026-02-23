@@ -1,0 +1,1 @@
+ALTER TABLE "courses" ADD COLUMN "certificate_enabled" boolean DEFAULT true NOT NULL;

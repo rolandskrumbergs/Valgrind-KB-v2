@@ -1,0 +1,89 @@
+{
+  "expo": {
+    "name": "Intressebevakaren",
+    "slug": "kb-app",
+    "version": "1.3.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon-v2.png",
+    "scheme": "kb-app",
+    "userInterfaceStyle": "automatic",
+    "notification": {
+      "icon": "./assets/images/icon-v2.png",
+      "color": "#5593AC",
+      "androidMode": "default",
+      "androidCollapsedTitle": "Intressebevakaren"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.intressebevakaren.intressebevakaren",
+      "infoPlist": {
+        "App Uses Non-Exempt Encryption": false,
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleLocalizations": ["en", "sv", "en", "sv"],
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "versionCode": 1301,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon-4.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.intressebevakaren.kbapp",
+      "permissions": [
+        "com.android.vending.BILLING",
+        "com.android.vending.BILLING"
+      ],
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "server",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#8C8E98"
+        }
+      ],
+      "expo-secure-store",
+      "expo-font",
+      "expo-web-browser",
+      "expo-localization",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon-v2.png",
+          "color": "#5593AC"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "bf6818d9-65e9-44ef-8354-5851034ed10f"
+      }
+    },
+    "cli": {
+      "appVersionSource": "remote"
+    },
+    "owner": "intressebevakaren",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bf6818d9-65e9-44ef-8354-5851034ed10f"
+    }
+  }
+}

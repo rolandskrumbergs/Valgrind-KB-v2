@@ -1,0 +1,1 @@
+ALTER TABLE "licenses" ADD CONSTRAINT "licenses_user_customer_unique" UNIQUE("user_id","customer_id");
