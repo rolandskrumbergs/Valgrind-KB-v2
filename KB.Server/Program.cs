@@ -77,6 +77,30 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseExceptionHandler(error => error.Run(async context =>
+{
+    var exception = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+    var logger = context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("ExceptionHandler");
+    logger.LogError(exception, "Unhandled exception for {Method} {Path}", context.Request.Method, context.Request.Path);
+
+    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+    context.Response.ContentType = "application/problem+json";
+
+    var problem = new Microsoft.AspNetCore.Mvc.ProblemDetails
+    {
+        Status = StatusCodes.Status500InternalServerError,
+        Title = "Internal Server Error",
+    };
+
+    if (app.Environment.IsDevelopment() && exception is not null)
+    {
+        problem.Detail = exception.Message;
+        problem.Extensions["exception"] = exception.ToString();
+    }
+
+    await context.Response.WriteAsJsonAsync(problem);
+}));
+
 app.UseDefaultFiles();
 app.MapStaticAssets();
 

@@ -4,7 +4,7 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -22,14 +22,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const mockUser = {
-  name: "Admin User",
-  email: "admin@intressebevakaren.se",
-};
-
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const displayEmail = user?.email ?? "";
+  const initial = displayEmail.charAt(0).toUpperCase();
 
   return (
     <SidebarMenu>
@@ -42,12 +40,11 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarFallback className="rounded-lg uppercase bg-primary text-primary-foreground font-bold text-lg">
-                  {mockUser.name.charAt(0)}
+                  {initial}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{mockUser.name}</span>
-                <span className="truncate text-xs">{mockUser.email}</span>
+                <span className="truncate font-medium">{displayEmail}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -61,13 +58,12 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg">
-                    {mockUser.name.charAt(0)}
+                  <AvatarFallback className="rounded-lg uppercase">
+                    {initial}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{mockUser.name}</span>
-                  <span className="truncate text-xs">{mockUser.email}</span>
+                  <span className="truncate font-medium">{displayEmail}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -85,7 +81,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigate("/login")}
+              onClick={() => logout()}
             >
               <LogOut />
               Log out

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,33 +12,36 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
-export function LoginPage() {
-  const { login } = useAuth();
+export function RegisterPage() {
+  const { register } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const successMessage = (location.state as { message?: string })?.message;
-
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setIsLoading(true);
     setError(null);
 
-    const result = await login(email, password);
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await register(email, password, confirmPassword);
     setIsLoading(false);
 
     if (result.success) {
-      navigate("/");
-    } else if (result.requiresMfa) {
-      setError("MFA is not yet supported in the web app.");
+      navigate("/login", {
+        state: { message: "Account created successfully. Please sign in." },
+      });
     } else {
-      setError(result.error ?? "Invalid email or password.");
+      setError(result.error ?? "Registration failed.");
     }
   }
 
@@ -46,16 +49,13 @@ export function LoginPage() {
     <div className="flex h-screen w-full items-center justify-center bg-background">
       <Card className="max-w-sm w-full bg-muted">
         <CardHeader>
-          <CardTitle>Welcome back</CardTitle>
-          <CardDescription>Sign in to your account</CardDescription>
+          <CardTitle>Create account</CardTitle>
+          <CardDescription>
+            Enter your details to create a new account
+          </CardDescription>
         </CardHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <CardContent className="space-y-4">
-            {successMessage && (
-              <div className="text-sm text-center flex items-center gap-2 bg-green-500/10 p-2 rounded-md border border-green-500/40 text-green-600 dark:text-green-400">
-                <CheckCircle2 className="w-4 h-4 shrink-0" /> {successMessage}
-              </div>
-            )}
             {error && (
               <div className="text-sm text-center flex items-center gap-2 bg-destructive/10 p-2 rounded-md border border-destructive/40 text-red-500">
                 <AlertCircle className="w-4 h-4 shrink-0" /> {error}
@@ -66,7 +66,7 @@ export function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="you@example.com"
                 className="bg-background"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -83,14 +83,17 @@ export function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <div className="text-right">
-                <button
-                  type="button"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Forgot password?
-                </button>
-              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                className="bg-background"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
@@ -98,13 +101,13 @@ export function LoginPage() {
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                "Sign in"
+                "Create account"
               )}
             </Button>
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/register" className="text-primary hover:underline">
-                Create one
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary hover:underline">
+                Sign in
               </Link>
             </p>
           </CardFooter>
