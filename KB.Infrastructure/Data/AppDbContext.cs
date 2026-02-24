@@ -1,15 +1,21 @@
 using System.Reflection;
 using KB.Domain.Abstract;
 using KB.Domain.Interfaces;
+using KB.Domain.Entities;
+using KB.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace KB.Infrastructure.Data;
 
 public class AppDbContext(
     DbContextOptions<AppDbContext> options,
-    IDomainEventDispatcher? dispatcher) : DbContext(options)
+    IDomainEventDispatcher? dispatcher) : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options)
 {
     private readonly IDomainEventDispatcher? _dispatcher = dispatcher;
+
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
