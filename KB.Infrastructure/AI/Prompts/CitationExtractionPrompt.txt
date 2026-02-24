@@ -1,0 +1,13 @@
+Extrahera alla citeringar och källhänvisningar från följande AI-genererade svar.
+
+## Svar att analysera
+{{$response}}
+
+## Instruktioner
+Identifiera alla citeringar i svaret. En citering kan vara:
+- Lagreferens (t.ex. "FB 11 kap. 4 §", "SFS 2024:123")
+- Källhänvisning (t.ex. "[Källa: dokumentnamn]")
+- Rättsfallsreferens (t.ex. "NJA 2023 s. 45")
+
+Svara i exakt detta JSON-format:
+{"citations": [{"text": "<citeringstexten>", "type": "<law|source|case>"}]}

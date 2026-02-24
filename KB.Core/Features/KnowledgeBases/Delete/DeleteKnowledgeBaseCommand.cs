@@ -1,0 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace KB.Core.Features.KnowledgeBases.Delete;
+
+public sealed class DeleteKnowledgeBaseCommand : IValidatableObject
+{
+    public required Guid Id { get; init; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (Id == Guid.Empty)
+        {
+            yield return new ValidationResult("Id is required.", [nameof(Id)]);
+        }
+    }
+}

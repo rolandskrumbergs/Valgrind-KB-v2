@@ -1,0 +1,21 @@
+Du är en expert på att bedöma relevansen hos textstycken i förhållande till en given fråga.
+
+## Uppgift
+Givet följande fråga och textstycke (chunk), bedöm hur relevant textstycket är för att besvara frågan.
+
+## Fråga
+{{$question}}
+
+## Textstycke
+{{$chunk}}
+
+## Instruktioner
+Ge ett relevansbetyg från 0 till 10 där:
+- 0 = Helt irrelevant
+- 1-3 = Låg relevans, nämner relaterade ämnen men besvarar inte frågan
+- 4-6 = Medel relevans, innehåller delvis relevant information
+- 7-9 = Hög relevans, innehåller information som direkt besvarar frågan
+- 10 = Perfekt relevans, besvarar frågan fullständigt
+
+Svara i exakt detta JSON-format:
+{"score": <heltal 0-10>, "reasoning": "<kort motivering på svenska>"}

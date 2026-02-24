@@ -2,7 +2,6 @@ using System.Reflection;
 using KB.Domain.Abstract;
 using KB.Domain.Interfaces;
 using KB.Domain.Entities;
-using KB.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +15,15 @@ public class AppDbContext(
     private readonly IDomainEventDispatcher? _dispatcher = dispatcher;
 
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<AiProfile> AiProfiles => Set<AiProfile>();
+    public DbSet<Conversation> Conversations => Set<Conversation>();
+    public DbSet<ConversationMessage> ConversationMessages => Set<ConversationMessage>();
+    public DbSet<MessageFeedback> MessageFeedbacks => Set<MessageFeedback>();
+    public DbSet<UsageRecord> UsageRecords => Set<UsageRecord>();
+    public DbSet<ConversationStarter> ConversationStarters => Set<ConversationStarter>();
+    public DbSet<AiInvocation> AiInvocations => Set<AiInvocation>();
+    public DbSet<KnowledgeBase> KnowledgeBases => Set<KnowledgeBase>();
+    public DbSet<Document> Documents => Set<Document>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -9,6 +9,16 @@
     <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <!-- AI / Semantic Kernel -->
+    <PackageVersion Include="Microsoft.SemanticKernel" Version="1.72.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.AzureOpenAI" Version="1.72.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.72.0" />
+    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
+    <PackageVersion Include="Microsoft.KernelMemory.AI.AzureOpenAI" Version="0.98.250508.3" />
+    <PackageVersion Include="Microsoft.KernelMemory.MemoryDb.AzureAISearch" Version="0.98.250508.3" />
+    <PackageVersion Include="Microsoft.KernelMemory.DocumentStorage.AzureBlobs" Version="0.98.250508.3" />
+    <PackageVersion Include="Azure.Search.Documents" Version="11.7.0" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.27.0" />
     <!-- Infrastructure -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />

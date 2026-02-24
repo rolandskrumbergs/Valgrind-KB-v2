@@ -1,7 +1,11 @@
 using KB.Core.Interfaces;
 using KB.Domain.Interfaces;
+using KB.Domain.Interfaces.Repositories;
+using KB.Infrastructure.AI;
+using KB.Infrastructure.Configuration;
 using KB.Infrastructure.Data;
 using KB.Infrastructure.Data.Interceptors;
+using KB.Infrastructure.Data.Repositories;
 using KB.Infrastructure.Events;
 using KB.Domain.Entities;
 using KB.Infrastructure.Services;
@@ -53,6 +57,23 @@ public static class Setup
         services.AddScoped<KB.Core.Interfaces.ITokenService, TokenService>();
         services.AddScoped<KB.Core.Interfaces.IEmailService, EmailService>();
         services.AddScoped<KB.Core.Interfaces.ITotpService, TotpService>();
+
+        services.Configure<AiSettings>(configuration.GetSection(AiSettings.SectionName));
+
+        // AI services
+        services.AddSemanticKernel(configuration);
+        services.AddSingleton<IBlobStorageService, BlobStorageService>();
+        services.AddSingleton<IDocumentIngestionService, DocumentIngestionService>();
+        services.AddScoped<IChatOrchestrationService, ChatOrchestrationService>();
+
+        // Repositories
+        services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<IAiProfileRepository, AiProfileRepository>();
+        services.AddScoped<IConversationRepository, ConversationRepository>();
+        services.AddScoped<IAiInvocationRepository, AiInvocationRepository>();
+        services.AddScoped<IUsageRecordRepository, UsageRecordRepository>();
+        services.AddScoped<IConversationStarterRepository, ConversationStarterRepository>();
 
         return services;
     }
