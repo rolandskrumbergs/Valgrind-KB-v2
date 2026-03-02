@@ -3,13 +3,13 @@
 ## Progress
 
 - ✅ **Step 1**: Domain entities, enums, repository interfaces, EF configs, migration — COMPLETE
-- ✅ **Step 2**: NuGet packages (SK 1.72.0, Kernel Memory 0.98, Azure SDK) + AI config classes + appsettings — COMPLETE
-- ✅ **Step 3**: Semantic Kernel DI setup (dual provider, config binding) — COMPLETE
-- ✅ **Step 4**: KB & Document handlers, blob storage, ingestion service, all repository implementations — COMPLETE
-- ✅ **Step 5**: RAG Plugin, Swedish system prompts, Chat orchestration service, SSE streaming, Conversation CQRS — COMPLETE
-- ⬜ **Step 6**: Confidence Scoring Pipeline
+- ✅ **Step 2**: NuGet packages — COMPLETE (Azure AI Search removed, KM Postgres + KM AI OpenAI added)
+- ✅ **Step 3**: Semantic Kernel DI setup — COMPLETE (IKernelMemory registered with Postgres connector, dual OpenAI/AzureOpenAI provider support)
+- ✅ **Step 4**: Document ingestion service — COMPLETE (uses IKernelMemory.ImportDocumentAsync pipeline with tag-based KB/category/document filtering)
+- ✅ **Step 5**: RAG Plugin & Chat orchestration — COMPLETE (KnowledgeBasePlugin uses IKernelMemory.SearchAsync, ChatOrchestrationService wired with IKernelMemory)
+- ⬜ **Step 6**: Confidence Scoring Pipeline — NOT STARTED (planned as final step)
 - ✅ **Step 7**: All API endpoints (KB, Documents, AI Profiles, Conversations w/ SSE, Starters, Feedback) — COMPLETE
-- ⬜ **Step 8**: Frontend Integration
+- ✅ **Step 8**: Frontend Integration — COMPLETE (API client with SSE streaming, chat page with real-time token rendering, AI profiles CRUD, knowledge bases CRUD with document upload)
 
 ## Problem Statement
 
@@ -17,19 +17,23 @@ The KB platform needs AI-powered chat ("Lena") that allows users to ask question
 
 ## Current State
 
-**What exists:**
+**What exists (fully implemented):**
 - ✅ Clean Architecture foundation (DDD, CQRS, Result pattern, interceptors, repositories)
 - ✅ Authentication system (ASP.NET Core Identity + JWT)
-- ✅ Frontend mock pages: Chat UI (`chat.tsx`), AI Profiles (`ai-profiles.tsx`), Knowledge Bases (`knowledge-bases.tsx`)
-- ✅ Detailed design docs: `guardian-legal-ai-plan.md`, `system-overview.md`, `implementation-plan.md`
+- ✅ All AI domain entities, enums, repository interfaces, EF configurations, and migration (Step 1)
+- ✅ All API endpoints: Conversations (SSE streaming), AI Profiles, Knowledge Bases, Documents, Conversation Starters (Step 7)
+- ✅ NuGet packages: Semantic Kernel, Kernel Memory Core, KM Postgres connector, KM AI OpenAI (Step 2)
+- ✅ Semantic Kernel DI setup with IKernelMemory (Postgres pgvector), dual OpenAI/AzureOpenAI provider support (Step 3)
+- ✅ Document ingestion pipeline via IKernelMemory.ImportDocumentAsync with tag-based filtering (Step 4)
+- ✅ RAG plugin (KnowledgeBasePlugin) using IKernelMemory.SearchAsync with pgvector (Step 5)
+- ✅ Chat orchestration service with SSE streaming via IAsyncEnumerable<ChatStreamEvent> (Step 5)
+- ✅ Frontend: API client with all AI types + SSE async generator, chat page with conversation sidebar + real-time streaming + feedback, AI profiles CRUD with dialog forms, knowledge bases CRUD with document upload (Step 8)
 
-**What's missing (everything AI-related):**
-- ❌ All AI domain entities & enums
-- ❌ NuGet packages (Semantic Kernel, Azure AI Search, Kernel Memory, OpenAI)
-- ❌ Backend services (chat orchestration, RAG, confidence scoring, document ingestion)
-- ❌ API endpoints (conversations, AI profiles, knowledge bases, documents)
-- ❌ Configuration (AI settings, provider config, confidence thresholds)
-- ❌ Frontend wiring (SSE streaming, real API calls, confidence indicators)
+**What's remaining:**
+- ⬜ Step 6: Confidence Scoring Pipeline (Layers 1-4) — planned as final enhancement
+- ⬜ End-to-end testing with real OpenAI API key and PostgreSQL with pgvector extension
+- ⬜ `CREATE EXTENSION vector` on PostgreSQL database (required before first use)
+- ⬜ Hybrid search optimization (full-text BM25 + vector similarity fusion) — current implementation uses KM's built-in vector search only
 
 ## Approach
 
@@ -75,7 +79,7 @@ All entities follow `DomainEntity<Guid>` pattern with `protected set`, no valida
   - ConversationId, MessageId, UserId, SearchQuery, ConversationSummary, Outcome (InvocationOutcome), OutcomeReason, RetrievedChunks (JSON), QualityMetrics (JSON), InputTokens, OutputTokens, Model, AiProfileSnapshot (JSON), CreatedAt
 
 - **`KnowledgeBase`** — IAggregateRoot, ISoftDeletable, IAuditable
-  - Name, Slug, Description, IsActive, BlobContainerName, SearchIndexPrefix, CreatedByUserId, UpdatedByUserId
+  - Name, Slug, Description, IsActive, BlobContainerName, SearchIndexPrefix (retained for logical tag-based filtering in pgvector), CreatedByUserId, UpdatedByUserId
 
 - **`Document`** — IAggregateRoot, IAuditable
   - KnowledgeBaseId, FileName, FileSize, ContentType, Category (KnowledgeCategory), BlobPath, ContentHash, ChunkingPreset, ProcessingStatus (ProcessingStatus), ProcessingProgress (JSON), ProcessingMetrics (JSON), ErrorMessage, TotalChunks, IndexedChunks, FailedChunks, UploadedByUserId
@@ -109,22 +113,24 @@ One configuration class per entity:
 ### 2.1 — Add NuGet Packages to `Directory.Packages.props`
 ```xml
 Microsoft.SemanticKernel
-Microsoft.SemanticKernel.Connectors.AzureAISearch
 Microsoft.SemanticKernel.Connectors.AzureOpenAI
 Microsoft.SemanticKernel.Connectors.OpenAI
+Microsoft.SemanticKernel.Connectors.PgVector
 Microsoft.KernelMemory.Core
-Microsoft.KernelMemory.AzureAISearch
-Microsoft.KernelMemory.AzureOpenAI
+Microsoft.KernelMemory.MemoryDb.Postgres
+Microsoft.KernelMemory.AI.AzureOpenAI (or OpenAI equivalent)
 Azure.Storage.Blobs
+Pgvector (Npgsql pgvector extension)
 ```
 
 ### 2.2 — Configuration Classes (`KB.Core/` or `KB.Infrastructure/`)
 - **`AiSettings`** — DefaultModel, MaxAgenticLoopSteps, MaxConversationHistoryMessages
 - **`OpenAiSettings`** — ApiKey, OrganizationId
 - **`AzureOpenAiSettings`** — Endpoint, ApiKey, DeploymentName, EmbeddingDeploymentName
-- **`AzureAiSearchSettings`** — Endpoint, ApiKey
 - **`AzureBlobStorageSettings`** — ConnectionString
 - **`ConfidenceThresholdDefaults`** — Default values for all 4 layers
+
+> **Note**: `AzureAiSearchSettings` is no longer needed. Vector search is handled by pgvector in the existing PostgreSQL database.
 
 ### 2.3 — Configuration in `appsettings.json`
 Add AI configuration sections with placeholder values (secrets via user-secrets or environment vars).
@@ -137,13 +143,19 @@ Add AI configuration sections with placeholder values (secrets via user-secrets 
 - Register `IKernel` (or `Kernel`) with DI
 - Configure dual LLM provider support (Azure OpenAI + OpenAI) based on settings
 - Register embedding service for `text-embedding-3-large`
-- Register Azure AI Search vector store connector
+- Register pgvector PostgreSQL vector store connector (`AddPostgresVectorStore`)
 
 ### 3.2 — Register Kernel Memory
 - Configure Kernel Memory pipeline (upload → chunk → embed → index)
 - Azure Blob Storage as document store
-- Azure AI Search as vector store
+- **PostgreSQL + pgvector as vector store** (`Microsoft.KernelMemory.MemoryDb.Postgres`)
 - Configurable chunking parameters
+
+### 3.3 — PostgreSQL pgvector Setup
+- Enable `vector` extension on the database: `CREATE EXTENSION IF NOT EXISTS vector;`
+- Create vector tables for chunk storage (managed by Kernel Memory Postgres connector or custom schema)
+- Configure HNSW indexes for fast similarity search on vector columns
+- Enable PostgreSQL full-text search (GIN indexes on `tsvector` columns) for hybrid search
 
 ---
 
@@ -156,17 +168,17 @@ Add AI configuration sections with placeholder values (secrets via user-secrets 
 
 ### 4.2 — Document Ingestion Service
 - `IDocumentIngestionService` interface
-- Uses Kernel Memory pipeline: upload blob → chunk → embed → index into Azure AI Search
-- Routes to correct KB container + search index set based on `KnowledgeBase.SearchIndexPrefix` + `Document.Category`
-- Index naming: `{searchIndexPrefix}-{category}` (e.g., `swedish-legal-laws`, `swedish-legal-books`)
+- Uses Kernel Memory pipeline: upload blob → chunk → embed → index into **PostgreSQL via pgvector**
+- Routes to correct KB container + vector partition based on `KnowledgeBase.SearchIndexPrefix` + `Document.Category`
+- Partition strategy: use `knowledge_base_id` + `category` columns to logically partition chunks within a single table (or use Kernel Memory's built-in tag-based filtering)
 - Updates `Document.ProcessingStatus`, `ProcessingProgress`, `ProcessingMetrics` during pipeline
 - Background processing (fire-and-forget or queued)
 - Content hash deduplication check before processing
 
 ### 4.3 — Knowledge Base CQRS Handlers (`KB.Core/Features/KnowledgeBases/`)
-- `CreateKnowledgeBaseCommand` + Handler — provisions blob container + search indexes
+- `CreateKnowledgeBaseCommand` + Handler — provisions blob container (search indexes no longer needed — pgvector uses shared table with filters)
 - `UpdateKnowledgeBaseCommand` + Handler
-- `DeleteKnowledgeBaseCommand` + Handler (soft-delete)
+- `DeleteKnowledgeBaseCommand` + Handler (soft-delete + delete associated vector chunks)
 - `GetKnowledgeBaseByIdQuery` + Handler
 - `GetKnowledgeBasesQuery` + Handler (paginated list)
 
@@ -184,10 +196,12 @@ Add AI configuration sections with placeholder values (secrets via user-secrets 
 ### 5.1 — Knowledge Base Search Plugin (Semantic Kernel Plugin)
 - `KnowledgeBasePlugin` class — registered as SK native function/tool
 - Tool function: `SearchKnowledgeBase(query, category?)` — called by SK's agentic loop
-- Queries Azure AI Search with hybrid search (vector + keyword + semantic ranking)
-- Searches across all 4 category indexes for the active AI profile's knowledge base
+- **Queries PostgreSQL pgvector with hybrid search** (vector similarity + full-text BM25 via `tsvector`/`tsquery`, fused using Reciprocal Rank Fusion)
+- Filters by `knowledge_base_id` and optionally `category` — single table replaces 4 separate indexes per KB
 - Returns formatted chunks with metadata (source document, category, relevance score)
 - Configurable `topK` and `minRelevanceScore` from active `AiProfile`
+- Uses Npgsql with pgvector extension for vector distance queries (cosine similarity via `<=>` operator)
+- HNSW index on embedding column for fast approximate nearest neighbor search
 
 ### 5.2 — System Prompt Design
 - Swedish-language system prompt for "Lena" persona
@@ -220,7 +234,7 @@ Add AI configuration sections with placeholder values (secrets via user-secrets 
 ## Step 6: Confidence Scoring Pipeline
 
 ### 6.1 — Layer 1: Chunk-Level Relevance Scoring
-- After Azure AI Search retrieval, evaluate chunk scores
+- After pgvector retrieval, evaluate chunk distance scores (converted to similarity: `1 - cosine_distance`)
 - Apply thresholds from `AiProfile`: `MinRelevanceThreshold`, `MinRelevanceChunksRequired`, `HighConfidenceThreshold`, `HighConfidenceChunksRequired`
 - Short-circuit: if insufficient relevant chunks → refuse with explanation, log as `InsufficientData`
 
@@ -350,14 +364,47 @@ For a minimal viable AI chat, implement in this order:
 - **SSE not SignalR** for streaming (mobile app compatibility)
 - **Dual LLM providers**: Azure OpenAI (production) + OpenAI (development)
 - **Separate evaluation LLM**: Use cheaper model (gpt-4o-mini) for confidence scoring
-- **4 category indexes per KB**: books, laws, legalcases, other
-- **Kernel Memory** for document ingestion pipeline
+- **PostgreSQL pgvector** as vector store (replaces Azure AI Search — uses existing DB, saves ~$74-$365/mo)
+- **Hybrid search via pgvector + full-text**: Vector similarity (`<=>` cosine) + BM25 (`tsvector`/`tsquery`) with Reciprocal Rank Fusion (RRF)
+- **Single chunks table** with `knowledge_base_id` + `category` columns replaces 4 separate indexes per KB
+- **Kernel Memory with Postgres connector** (`Microsoft.KernelMemory.MemoryDb.Postgres`) for document ingestion pipeline
 - **text-embedding-3-large** for embeddings (replacing Swedish BERT)
 - **Swedish-language** system prompts
 
 ### Dependencies
 - Step 1 (entities) → unblocks Steps 3-7
 - Step 2 (packages) → unblocks Step 3
-- Step 3 (SK setup) → unblocks Steps 4-6
+- Step 3 (SK setup + pgvector) → unblocks Steps 4-6
 - Step 5 (RAG + chat) → unblocks Step 7.1
 - Step 7 (endpoints) → unblocks Step 8
+
+---
+
+## Migration from Azure AI Search to pgvector — COMPLETED
+
+All migration changes have been applied:
+
+### Packages Changed (`Directory.Packages.props` + `KB.Infrastructure.csproj`)
+- ✅ **Added**: `Microsoft.KernelMemory.MemoryDb.Postgres`, `Microsoft.KernelMemory.AI.OpenAI`
+- ✅ **Removed**: `Azure.Search.Documents`, `Microsoft.KernelMemory.MemoryDb.AzureAISearch`
+
+### Code Changes Applied
+
+1. ✅ **`KnowledgeBasePlugin.cs`** — Full rewrite: uses `IKernelMemory.SearchAsync()` with tag-based filtering for `knowledge_base_id` and `category` instead of Azure AI Search `SearchClient`
+
+2. ✅ **`AiSettings.cs`** — Removed `AzureAiSearchSettings` class and property
+
+3. ✅ **`AiSetup.cs`** — Full rewrite: registers `IKernelMemory` as singleton using `KernelMemoryBuilder` with `.WithPostgresMemoryDb()`, `.WithOpenAI()` / `.WithAzureOpenAITextGeneration()` + `.WithAzureOpenAITextEmbeddingGeneration()`, and optional Azure Blob Storage
+
+4. ✅ **`DocumentIngestionService.cs`** — Full rewrite: uses `IKernelMemory.ImportDocumentAsync()` pipeline with tag-based metadata (knowledge_base_id, category, document_id), polls `IsDocumentReadyAsync()` for completion
+
+5. ✅ **`appsettings.json`** — Removed `AzureAiSearch` configuration section
+
+6. ✅ **`ChatOrchestrationService.cs`** — Added `IKernelMemory` injection, passes to `KnowledgeBasePlugin` constructor
+
+### Technical Details
+- Kernel Memory Postgres connector auto-creates tables with `km_` prefix per memory index
+- Vector search uses KM's built-in similarity search (no custom SQL required)
+- Tag-based filtering replaces separate Azure AI Search indexes per KB
+- `CREATE EXTENSION vector` must be run on PostgreSQL before first use
+- KM package version: `0.98.250508.3` (net8.0, compatible with project's net10.0 target)

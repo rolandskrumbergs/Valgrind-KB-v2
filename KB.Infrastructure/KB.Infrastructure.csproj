@@ -18,9 +18,9 @@
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" />
     <PackageReference Include="Microsoft.KernelMemory.Core" />
     <PackageReference Include="Microsoft.KernelMemory.AI.AzureOpenAI" />
-    <PackageReference Include="Microsoft.KernelMemory.MemoryDb.AzureAISearch" />
+    <PackageReference Include="Microsoft.KernelMemory.AI.OpenAI" />
+    <PackageReference Include="Microsoft.KernelMemory.MemoryDb.Postgres" />
     <PackageReference Include="Microsoft.KernelMemory.DocumentStorage.AzureBlobs" />
-    <PackageReference Include="Azure.Search.Documents" />
     <PackageReference Include="Azure.Storage.Blobs" />
   </ItemGroup>
 

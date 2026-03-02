@@ -12,6 +12,7 @@ using KB.Infrastructure.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.KernelMemory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -21,11 +22,13 @@ namespace KB.Infrastructure.AI;
 public sealed class ChatOrchestrationService(
     IServiceScopeFactory scopeFactory,
     Kernel kernel,
+    IKernelMemory kernelMemory,
     IOptions<AiSettings> aiSettings,
     ILogger<ChatOrchestrationService> logger) : IChatOrchestrationService
 {
     private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
     private readonly Kernel _kernel = kernel;
+    private readonly IKernelMemory _kernelMemory = kernelMemory;
     private readonly AiSettings _aiSettings = aiSettings.Value;
     private readonly ILogger<ChatOrchestrationService> _logger = logger;
 
@@ -68,7 +71,7 @@ public sealed class ChatOrchestrationService(
         await conversationRepository.UpdateAsync(conversation, cancellationToken).ConfigureAwait(false);
 
         // Set up KB plugin for this request
-        var kbPlugin = new KnowledgeBasePlugin(_aiSettings, aiProfile);
+        var kbPlugin = new KnowledgeBasePlugin(_aiSettings, aiProfile, _kernelMemory);
         var chatKernel = _kernel.Clone();
         chatKernel.Plugins.AddFromObject(kbPlugin, "KnowledgeBase");
 

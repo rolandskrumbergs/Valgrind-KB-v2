@@ -173,6 +173,13 @@ namespace KB.Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<DateTimeOffset?>("BanExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("BanReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -196,8 +203,31 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTimeOffset?>("InvitationAcceptedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<bool>("IsInvited")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("LegacyUserId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -209,6 +239,9 @@ namespace KB.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<bool>("MustResetPassword")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -231,6 +264,10 @@ namespace KB.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("SecurityNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -258,6 +295,100 @@ namespace KB.Infrastructure.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Article", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Attachments")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("AuthorUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ExcludedOrganizationIds")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("FeaturedImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorUserId");
+
+                    b.ToTable("Articles", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Chapter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("VideoUrl")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Chapters", (string)null);
                 });
 
             modelBuilder.Entity("KB.Domain.Entities.Conversation", b =>
@@ -355,6 +486,111 @@ namespace KB.Infrastructure.Data.Migrations
                     b.ToTable("ConversationStarters", (string)null);
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Course", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("CertificateEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.ToTable("Courses", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.DeviceRegistration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AppVersion")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Platform")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("PushToken")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PushToken")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DeviceRegistrations", (string)null);
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
@@ -447,6 +683,67 @@ namespace KB.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Documents", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Enrollment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccessType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("CertificateId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTimeOffset?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("LastChapterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LastChapterId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UserId", "CourseId")
+                        .IsUnique();
+
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("KB.Domain.Entities.KnowledgeBase", b =>
@@ -547,6 +844,222 @@ namespace KB.Infrastructure.Data.Migrations
                     b.ToTable("MessageFeedbacks", (string)null);
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Organization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContactInfo")
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InvoiceInfo")
+                        .HasColumnType("jsonb");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MaxSeats")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.OrganizationCourse", b =>
+                {
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SharedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("OrganizationId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("SharedByUserId");
+
+                    b.ToTable("OrganizationCourses", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Purchase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal>("PriceInLocalCurrency")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int?>("TokenAmount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Purchases", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Question", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChapterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Feedback")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChapterId");
+
+                    b.ToTable("Questions", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.QuestionAnswer", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SelectedOptionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "QuestionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("SelectedOptionId");
+
+                    b.ToTable("QuestionAnswers", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.QuestionOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionOptions", (string)null);
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -578,6 +1091,50 @@ namespace KB.Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Subscription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("ActivatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DeactivatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UserId", "OrganizationId")
+                        .IsUnique()
+                        .HasFilter("\"UserId\" IS NOT NULL");
+
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("KB.Domain.Entities.UsageRecord", b =>
@@ -796,6 +1353,28 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("KnowledgeBase");
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Article", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "AuthorUser")
+                        .WithMany()
+                        .HasForeignKey("AuthorUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AuthorUser");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Chapter", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Course", "Course")
+                        .WithMany("Chapters")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.Conversation", b =>
                 {
                     b.HasOne("KB.Domain.Entities.AiProfile", "AiProfile")
@@ -825,6 +1404,28 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("Conversation");
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Course", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.DeviceRegistration", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.Document", b =>
                 {
                     b.HasOne("KB.Domain.Entities.KnowledgeBase", "KnowledgeBase")
@@ -842,6 +1443,39 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("KnowledgeBase");
 
                     b.Navigation("UploadedByUser");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Enrollment", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.Chapter", "LastChapter")
+                        .WithMany()
+                        .HasForeignKey("LastChapterId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("KB.Domain.Entities.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("LastChapter");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KB.Domain.Entities.MessageFeedback", b =>
@@ -871,6 +1505,100 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.OrganizationCourse", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Course", "Course")
+                        .WithMany("OrganizationCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "SharedByUser")
+                        .WithMany()
+                        .HasForeignKey("SharedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("SharedByUser");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Purchase", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Question", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Chapter", "Chapter")
+                        .WithMany("Questions")
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chapter");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.QuestionAnswer", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.QuestionOption", "SelectedOption")
+                        .WithMany()
+                        .HasForeignKey("SelectedOptionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("SelectedOption");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.QuestionOption", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Question", "Question")
+                        .WithMany("Options")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
@@ -878,6 +1606,24 @@ namespace KB.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Subscription", b =>
+                {
+                    b.HasOne("KB.Domain.Entities.Organization", "Organization")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KB.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Organization");
 
                     b.Navigation("User");
                 });
@@ -963,6 +1709,11 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("RefreshTokens");
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Chapter", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.Conversation", b =>
                 {
                     b.Navigation("Feedbacks");
@@ -970,11 +1721,28 @@ namespace KB.Infrastructure.Data.Migrations
                     b.Navigation("Messages");
                 });
 
+            modelBuilder.Entity("KB.Domain.Entities.Course", b =>
+                {
+                    b.Navigation("Chapters");
+
+                    b.Navigation("OrganizationCourses");
+                });
+
             modelBuilder.Entity("KB.Domain.Entities.KnowledgeBase", b =>
                 {
                     b.Navigation("AiProfiles");
 
                     b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Organization", b =>
+                {
+                    b.Navigation("Subscriptions");
+                });
+
+            modelBuilder.Entity("KB.Domain.Entities.Question", b =>
+                {
+                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }

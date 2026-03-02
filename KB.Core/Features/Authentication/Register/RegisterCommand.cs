@@ -5,6 +5,8 @@ namespace KB.Core.Features.Authentication.Register;
 public sealed class RegisterCommand : IValidatableObject
 {
     public required string Email { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
     public required string Password { get; init; }
     public required string ConfirmPassword { get; init; }
 
@@ -17,6 +19,16 @@ public sealed class RegisterCommand : IValidatableObject
         else if (!IsValidEmail(Email))
         {
             yield return new ValidationResult("Invalid email format.", [nameof(Email)]);
+        }
+
+        if (string.IsNullOrWhiteSpace(FirstName))
+        {
+            yield return new ValidationResult("First name is required.", [nameof(FirstName)]);
+        }
+
+        if (string.IsNullOrWhiteSpace(LastName))
+        {
+            yield return new ValidationResult("Last name is required.", [nameof(LastName)]);
         }
 
         if (string.IsNullOrWhiteSpace(Password))

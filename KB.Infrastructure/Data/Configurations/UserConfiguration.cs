@@ -11,9 +11,24 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         builder.ToTable("AspNetUsers");
 
+        builder.Property(u => u.FirstName)
+            .HasMaxLength(200);
+
+        builder.Property(u => u.LastName)
+            .HasMaxLength(200);
+
+        builder.Property(u => u.SecurityNumber)
+            .HasMaxLength(20);
+
         builder.Property(u => u.Role)
             .HasConversion<string>()
             .HasMaxLength(50);
+
+        builder.Property(u => u.BanReason)
+            .HasMaxLength(1000);
+
+        builder.Property(u => u.LegacyUserId)
+            .HasMaxLength(200);
 
         builder.Property(u => u.MfaMethod)
             .HasConversion<string>()

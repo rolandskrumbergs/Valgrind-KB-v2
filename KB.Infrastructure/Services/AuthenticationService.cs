@@ -16,6 +16,8 @@ public class AuthenticationService(
     public async Task<(bool Success, string[] Errors, Guid UserId)> RegisterUserAsync(
         string email,
         string password,
+        string firstName,
+        string lastName,
         CancellationToken cancellationToken = default)
     {
         var existingUser = await _userManager.FindByEmailAsync(email);
@@ -26,7 +28,7 @@ public class AuthenticationService(
 
         var userId = Guid.NewGuid();
 
-        var applicationUser = new ApplicationUser(userId, email, UserRole.User);
+        var applicationUser = new ApplicationUser(userId, email, firstName, lastName, UserRole.User);
         applicationUser.ConfirmEmail(); // TODO: Implement email confirmation workflow
 
         var identityResult = await _userManager.CreateAsync(applicationUser, password);

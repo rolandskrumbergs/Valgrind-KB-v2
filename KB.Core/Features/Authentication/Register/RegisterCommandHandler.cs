@@ -23,6 +23,8 @@ public sealed class RegisterCommandHandler(
         var (success, errors, userId) = await _authenticationService.RegisterUserAsync(
             request.Email,
             request.Password,
+            request.FirstName,
+            request.LastName,
             cancellationToken);
 
         if (!success)

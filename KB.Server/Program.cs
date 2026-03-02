@@ -5,12 +5,13 @@ using KB.Domain.Interfaces;
 using KB.Infrastructure;
 using KB.Server;
 using KB.Server.Endpoints.Auth;
-using KB.Server.Endpoints.WeatherForecasts;
 using KB.Server.Endpoints.KnowledgeBases;
 using KB.Server.Endpoints.Documents;
 using KB.Server.Endpoints.AiProfiles;
 using KB.Server.Endpoints.Conversations;
 using KB.Server.Endpoints.ConversationStarters;
+using KB.Server.Endpoints.Organizations;
+using KB.Server.Endpoints.Subscriptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -122,12 +123,13 @@ app.UseAuthorization();
 
 // Minimal API endpoints
 app.MapAuthenticationEndpoints();
-app.MapGetWeatherForecast();
 app.MapKnowledgeBaseEndpoints();
 app.MapDocumentEndpoints();
 app.MapAiProfileEndpoints();
 app.MapConversationEndpoints();
 app.MapConversationStarterEndpoints();
+app.MapOrganizationEndpoints();
+app.MapSubscriptionEndpoints();
 
 app.MapFallbackToFile("/index.html");
 

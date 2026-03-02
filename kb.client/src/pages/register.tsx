@@ -18,6 +18,8 @@ export function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,7 +35,7 @@ export function RegisterPage() {
     }
 
     setIsLoading(true);
-    const result = await register(email, password, confirmPassword);
+    const result = await register(email, firstName, lastName, password, confirmPassword);
     setIsLoading(false);
 
     if (result.success) {
@@ -61,6 +63,32 @@ export function RegisterPage() {
                 <AlertCircle className="w-4 h-4 shrink-0" /> {error}
               </div>
             )}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="firstName">First name</Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="John"
+                  className="bg-background"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Last name</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="Doe"
+                  className="bg-background"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input

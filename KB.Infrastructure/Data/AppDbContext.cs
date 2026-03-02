@@ -24,6 +24,18 @@ public class AppDbContext(
     public DbSet<AiInvocation> AiInvocations => Set<AiInvocation>();
     public DbSet<KnowledgeBase> KnowledgeBases => Set<KnowledgeBase>();
     public DbSet<Document> Documents => Set<Document>();
+    public DbSet<Organization> Organizations => Set<Organization>();
+    public DbSet<Subscription> Subscriptions => Set<Subscription>();
+    public DbSet<Article> Articles => Set<Article>();
+    public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Chapter> Chapters => Set<Chapter>();
+    public DbSet<Question> Questions => Set<Question>();
+    public DbSet<QuestionOption> QuestionOptions => Set<QuestionOption>();
+    public DbSet<OrganizationCourse> OrganizationCourses => Set<OrganizationCourse>();
+    public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+    public DbSet<QuestionAnswer> QuestionAnswers => Set<QuestionAnswer>();
+    public DbSet<Purchase> Purchases => Set<Purchase>();
+    public DbSet<DeviceRegistration> DeviceRegistrations => Set<DeviceRegistration>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

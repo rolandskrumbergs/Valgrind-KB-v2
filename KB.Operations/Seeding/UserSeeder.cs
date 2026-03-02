@@ -33,7 +33,7 @@ public sealed class UserSeeder(
 
         var userId = Guid.NewGuid();
 
-        var applicationUser = new ApplicationUser(userId, adminEmail, UserRole.Admin);
+        var applicationUser = new ApplicationUser(userId, adminEmail, "Admin", "User", UserRole.Admin);
         applicationUser.ConfirmEmail();
 
         var identityResult = await userManager.CreateAsync(applicationUser, adminPassword);
@@ -60,7 +60,7 @@ public sealed class UserSeeder(
 
         var userId = Guid.NewGuid();
 
-        var applicationUser = new ApplicationUser(userId, testEmail, UserRole.User);
+        var applicationUser = new ApplicationUser(userId, testEmail, "Test", "User", UserRole.User);
         applicationUser.ConfirmEmail();
 
         var identityResult = await userManager.CreateAsync(applicationUser, testPassword);

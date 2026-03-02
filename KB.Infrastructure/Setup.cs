@@ -74,6 +74,12 @@ public static class Setup
         services.AddScoped<IAiInvocationRepository, AiInvocationRepository>();
         services.AddScoped<IUsageRecordRepository, UsageRecordRepository>();
         services.AddScoped<IConversationStarterRepository, ConversationStarterRepository>();
+        services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+        services.AddScoped<IArticleRepository, ArticleRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+        services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+        services.AddScoped<IDeviceRegistrationRepository, DeviceRegistrationRepository>();
 
         return services;
     }

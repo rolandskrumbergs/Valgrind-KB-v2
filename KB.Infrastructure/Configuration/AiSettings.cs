@@ -10,7 +10,6 @@ public sealed class AiSettings
     public string Provider { get; set; } = "OpenAI";
     public OpenAiSettings OpenAi { get; set; } = new();
     public AzureOpenAiSettings AzureOpenAi { get; set; } = new();
-    public AzureAiSearchSettings AzureAiSearch { get; set; } = new();
     public AzureBlobStorageSettings AzureBlobStorage { get; set; } = new();
     public ConfidenceThresholdDefaults ConfidenceDefaults { get; set; } = new();
 }
@@ -31,12 +30,6 @@ public sealed class AzureOpenAiSettings
     public string ChatDeployment { get; set; } = string.Empty;
     public string EvaluationDeployment { get; set; } = string.Empty;
     public string EmbeddingDeployment { get; set; } = string.Empty;
-}
-
-public sealed class AzureAiSearchSettings
-{
-    public string Endpoint { get; set; } = string.Empty;
-    public string ApiKey { get; set; } = string.Empty;
 }
 
 public sealed class AzureBlobStorageSettings

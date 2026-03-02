@@ -16,6 +16,7 @@ import { KnowledgeBasesPage } from "@/pages/knowledge-bases";
 import { AiProfilesPage } from "@/pages/ai-profiles";
 import { AnalyticsPage } from "@/pages/analytics";
 import { ManageAdminsPage } from "@/pages/manage-admins";
+import OrganizationDetailPage from "@/pages/organization-detail";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Route index element={<DashboardPage />} />
               <Route path="chat" element={<ChatPage />} />
               <Route path="organizations" element={<OrganizationsPage />} />
+              <Route path="organizations/:id" element={<OrganizationDetailPage />} />
               <Route path="members" element={<MembersPage />} />
               <Route path="articles" element={<ArticlesPage />} />
               <Route path="courses" element={<CoursesPage />} />

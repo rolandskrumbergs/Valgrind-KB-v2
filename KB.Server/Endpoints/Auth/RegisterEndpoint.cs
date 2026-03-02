@@ -26,6 +26,8 @@ internal static class RegisterEndpoint
         var command = new RegisterCommand
         {
             Email = request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
             Password = request.Password,
             ConfirmPassword = request.ConfirmPassword
         };
@@ -37,5 +39,7 @@ internal static class RegisterEndpoint
 
 internal sealed record RegisterRequest(
     string Email,
+    string FirstName,
+    string LastName,
     string Password,
     string ConfirmPassword);

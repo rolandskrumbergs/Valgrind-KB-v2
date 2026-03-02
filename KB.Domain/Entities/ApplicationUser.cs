@@ -8,17 +8,29 @@ public class ApplicationUser : IdentityUser<Guid>, IAggregateRoot, ISoftDeletabl
 {
     private ApplicationUser() { }
 
-    public ApplicationUser(Guid id, string email, UserRole role)
+    public ApplicationUser(Guid id, string email, string firstName, string lastName, UserRole role)
     {
         Id = id;
         Email = email;
         UserName = email;
+        FirstName = firstName;
+        LastName = lastName;
         Role = role;
         TwoFactorEnabled = false;
         MfaMethod = MfaMethod.None;
     }
 
+    public string FirstName { get; protected set; } = default!;
+    public string LastName { get; protected set; } = default!;
+    public string? SecurityNumber { get; protected set; }
     public UserRole Role { get; set; }
+    public bool IsBanned { get; protected set; }
+    public string? BanReason { get; protected set; }
+    public DateTimeOffset? BanExpiresAt { get; protected set; }
+    public bool IsInvited { get; protected set; }
+    public DateTimeOffset? InvitationAcceptedAt { get; protected set; }
+    public bool MustResetPassword { get; protected set; }
+    public string? LegacyUserId { get; protected set; }
     public MfaMethod MfaMethod { get; set; }
     public string? AuthenticatorKey { get; set; }
 
@@ -78,5 +90,32 @@ public class ApplicationUser : IdentityUser<Guid>, IAggregateRoot, ISoftDeletabl
     public void UpdatePasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash;
+    }
+
+    public void Ban(string? reason = null, DateTimeOffset? expiresAt = null)
+    {
+        IsBanned = true;
+        BanReason = reason;
+        BanExpiresAt = expiresAt;
+    }
+
+    public void Unban()
+    {
+        IsBanned = false;
+        BanReason = null;
+        BanExpiresAt = null;
+    }
+
+    public void AcceptInvitation()
+    {
+        IsInvited = false;
+        InvitationAcceptedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void UpdateProfile(string firstName, string lastName, string? securityNumber)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        SecurityNumber = securityNumber;
     }
 }

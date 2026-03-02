@@ -5,7 +5,7 @@ namespace KB.Core.Interfaces;
 
 public interface IAuthenticationService
 {
-    Task<(bool Success, string[] Errors, Guid UserId)> RegisterUserAsync(string email, string password, CancellationToken cancellationToken = default);
+    Task<(bool Success, string[] Errors, Guid UserId)> RegisterUserAsync(string email, string password, string firstName, string lastName, CancellationToken cancellationToken = default);
     Task<(bool Success, string[] Errors)> ValidateCredentialsAsync(string email, string password, CancellationToken cancellationToken = default);
     Task SignInAsync(Guid userId, CancellationToken cancellationToken = default);
     Task<string[]> GetUserRolesAsync(Guid userId, CancellationToken cancellationToken = default);
