@@ -31,6 +31,8 @@ public class PurchaseConfiguration : IEntityTypeConfiguration<Purchase>
         builder.Property(e => e.TransactionId)
             .HasMaxLength(500);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

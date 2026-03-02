@@ -12,6 +12,8 @@ public class OrganizationCourseConfiguration : IEntityTypeConfiguration<Organiza
 
         builder.HasKey(e => new { e.OrganizationId, e.CourseId });
 
+        builder.HasQueryFilter(e => !e.Organization.IsDeleted && !e.Course.IsDeleted);
+
         builder.HasOne(e => e.Organization)
             .WithMany()
             .HasForeignKey(e => e.OrganizationId)

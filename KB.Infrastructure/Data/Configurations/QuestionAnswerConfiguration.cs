@@ -12,6 +12,8 @@ public class QuestionAnswerConfiguration : IEntityTypeConfiguration<QuestionAnsw
 
         builder.HasKey(e => new { e.UserId, e.QuestionId });
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

@@ -16,6 +16,8 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         builder.Property(rt => rt.Token)
             .HasMaxLength(500);
 
+        builder.HasQueryFilter(rt => !rt.User.IsDeleted);
+
         builder.HasOne(rt => rt.User)
             .WithMany(u => u.RefreshTokens)
             .HasForeignKey(rt => rt.UserId)

@@ -21,6 +21,8 @@ public class DeviceRegistrationConfiguration : IEntityTypeConfiguration<DeviceRe
         builder.Property(e => e.AppVersion)
             .HasMaxLength(50);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

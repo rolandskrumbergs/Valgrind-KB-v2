@@ -12,6 +12,8 @@ public class MessageFeedbackConfiguration : IEntityTypeConfiguration<MessageFeed
 
         builder.HasKey(e => e.Id);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.Conversation)
             .WithMany(c => c.Feedbacks)
             .HasForeignKey(e => e.ConversationId)

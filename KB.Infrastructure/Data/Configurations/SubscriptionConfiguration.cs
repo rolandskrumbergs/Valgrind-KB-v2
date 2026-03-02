@@ -12,6 +12,8 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
 
         builder.HasKey(e => e.Id);
 
+        builder.HasQueryFilter(e => !e.Organization.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

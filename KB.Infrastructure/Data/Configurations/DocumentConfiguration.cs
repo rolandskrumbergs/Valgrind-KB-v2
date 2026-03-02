@@ -45,6 +45,8 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
         builder.Property(e => e.ErrorMessage)
             .HasMaxLength(2000);
 
+        builder.HasQueryFilter(e => !e.KnowledgeBase.IsDeleted);
+
         builder.HasOne(e => e.KnowledgeBase)
             .WithMany(kb => kb.Documents)
             .HasForeignKey(e => e.KnowledgeBaseId)

@@ -18,6 +18,8 @@ public class UsageRecordConfiguration : IEntityTypeConfiguration<UsageRecord>
         builder.Property(e => e.AiProfileSnapshot)
             .HasColumnType("jsonb");
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

@@ -15,6 +15,8 @@ public class ConversationConfiguration : IEntityTypeConfiguration<Conversation>
         builder.Property(e => e.Title)
             .HasMaxLength(500);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)

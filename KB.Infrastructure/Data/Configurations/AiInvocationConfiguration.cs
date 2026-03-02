@@ -53,6 +53,8 @@ public class AiInvocationConfiguration : IEntityTypeConfiguration<AiInvocation>
             .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted);
+
         builder.HasIndex(e => e.ConversationId);
         builder.HasIndex(e => e.UserId);
         builder.HasIndex(e => e.CreatedAt);

@@ -21,6 +21,8 @@ public class ChapterConfiguration : IEntityTypeConfiguration<Chapter>
         builder.Property(e => e.VideoUrl)
             .HasMaxLength(1000);
 
+        builder.HasQueryFilter(e => !e.Course.IsDeleted);
+
         builder.HasMany(e => e.Questions)
             .WithOne(q => q.Chapter)
             .HasForeignKey(q => q.ChapterId)

@@ -23,6 +23,8 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
         builder.Property(e => e.CertificateId)
             .HasMaxLength(200);
 
+        builder.HasQueryFilter(e => !e.User.IsDeleted && !e.Course.IsDeleted);
+
         builder.HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)
