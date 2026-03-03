@@ -13,33 +13,19 @@ public static class AiSetup
     {
         var aiSettings = configuration.GetSection(AiSettings.SectionName).Get<AiSettings>() ?? new AiSettings();
 
-        var isAzure = string.Equals(aiSettings.Provider, "AzureOpenAI", StringComparison.OrdinalIgnoreCase);
-        var hasApiKey = isAzure
-            ? !string.IsNullOrWhiteSpace(aiSettings.AzureOpenAi.ApiKey)
-            : !string.IsNullOrWhiteSpace(aiSettings.OpenAi.ApiKey);
-
-        if (!hasApiKey)
+        var azureSettings = aiSettings.AzureOpenAi;
+        if (string.IsNullOrWhiteSpace(azureSettings.ApiKey) || string.IsNullOrWhiteSpace(azureSettings.Endpoint))
         {
-            // No API key configured — skip AI service registration
+            // Azure OpenAI not configured — skip AI service registration
             return services;
         }
 
         services.AddKernel();
 
-        if (isAzure)
-        {
-            services.AddAzureOpenAIChatCompletion(
-                deploymentName: aiSettings.AzureOpenAi.ChatDeployment,
-                endpoint: aiSettings.AzureOpenAi.Endpoint,
-                apiKey: aiSettings.AzureOpenAi.ApiKey);
-        }
-        else
-        {
-            services.AddOpenAIChatCompletion(
-                modelId: aiSettings.OpenAi.ChatModel,
-                apiKey: aiSettings.OpenAi.ApiKey,
-                orgId: aiSettings.OpenAi.OrganizationId);
-        }
+        services.AddAzureOpenAIChatCompletion(
+            deploymentName: azureSettings.ChatDeployment,
+            endpoint: azureSettings.Endpoint,
+            apiKey: azureSettings.ApiKey);
 
         // Register Kernel Memory with pgvector Postgres connector
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
@@ -52,38 +38,24 @@ public static class AiSetup
 
         var kmBuilder = new KernelMemoryBuilder();
 
-        if (isAzure)
+        var azureConfig = new AzureOpenAIConfig
         {
-            var azureConfig = new AzureOpenAIConfig
-            {
-                Deployment = aiSettings.AzureOpenAi.ChatDeployment,
-                Endpoint = aiSettings.AzureOpenAi.Endpoint,
-                APIKey = aiSettings.AzureOpenAi.ApiKey,
-                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
-                APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
-            };
-            var azureEmbeddingConfig = new AzureOpenAIConfig
-            {
-                Deployment = aiSettings.AzureOpenAi.EmbeddingDeployment,
-                Endpoint = aiSettings.AzureOpenAi.Endpoint,
-                APIKey = aiSettings.AzureOpenAi.ApiKey,
-                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
-                APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
-            };
-            kmBuilder.WithAzureOpenAITextGeneration(azureConfig);
-            kmBuilder.WithAzureOpenAITextEmbeddingGeneration(azureEmbeddingConfig);
-        }
-        else
+            Deployment = azureSettings.ChatDeployment,
+            Endpoint = azureSettings.Endpoint,
+            APIKey = azureSettings.ApiKey,
+            Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+            APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
+        };
+        var azureEmbeddingConfig = new AzureOpenAIConfig
         {
-            var openAiConfig = new OpenAIConfig
-            {
-                TextModel = aiSettings.OpenAi.ChatModel,
-                EmbeddingModel = aiSettings.OpenAi.EmbeddingModel,
-                APIKey = aiSettings.OpenAi.ApiKey,
-                OrgId = aiSettings.OpenAi.OrganizationId ?? string.Empty,
-            };
-            kmBuilder.WithOpenAI(openAiConfig);
-        }
+            Deployment = azureSettings.EmbeddingDeployment,
+            Endpoint = azureSettings.Endpoint,
+            APIKey = azureSettings.ApiKey,
+            Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+            APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
+        };
+        kmBuilder.WithAzureOpenAITextGeneration(azureConfig);
+        kmBuilder.WithAzureOpenAITextEmbeddingGeneration(azureEmbeddingConfig);
 
         kmBuilder.WithPostgresMemoryDb(postgresConfig);
 

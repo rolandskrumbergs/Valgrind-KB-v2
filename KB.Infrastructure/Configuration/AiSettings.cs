@@ -7,20 +7,9 @@ public sealed class AiSettings
     public string DefaultModel { get; set; } = "gpt-4o";
     public int MaxAgenticLoopSteps { get; set; } = 5;
     public int MaxConversationHistoryMessages { get; set; } = 20;
-    public string Provider { get; set; } = "OpenAI";
-    public OpenAiSettings OpenAi { get; set; } = new();
     public AzureOpenAiSettings AzureOpenAi { get; set; } = new();
     public AzureBlobStorageSettings AzureBlobStorage { get; set; } = new();
     public ConfidenceThresholdDefaults ConfidenceDefaults { get; set; } = new();
-}
-
-public sealed class OpenAiSettings
-{
-    public string ApiKey { get; set; } = string.Empty;
-    public string? OrganizationId { get; set; }
-    public string ChatModel { get; set; } = "gpt-4o";
-    public string EvaluationModel { get; set; } = "gpt-4o-mini";
-    public string EmbeddingModel { get; set; } = "text-embedding-3-large";
 }
 
 public sealed class AzureOpenAiSettings

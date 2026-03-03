@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.KernelMemory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
 
 namespace KB.Infrastructure.AI;
 
@@ -79,9 +79,9 @@ public sealed class ChatOrchestrationService(
         var chatHistory = BuildChatHistory(conversation);
 
         // Configure tool execution
-        var executionSettings = new OpenAIPromptExecutionSettings
+        var executionSettings = new AzureOpenAIPromptExecutionSettings
         {
-            ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
             MaxTokens = 4096,
             Temperature = 0.3
         };
