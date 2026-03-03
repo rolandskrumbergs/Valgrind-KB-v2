@@ -13,9 +13,20 @@ public static class AiSetup
     {
         var aiSettings = configuration.GetSection(AiSettings.SectionName).Get<AiSettings>() ?? new AiSettings();
 
+        var isAzure = string.Equals(aiSettings.Provider, "AzureOpenAI", StringComparison.OrdinalIgnoreCase);
+        var hasApiKey = isAzure
+            ? !string.IsNullOrWhiteSpace(aiSettings.AzureOpenAi.ApiKey)
+            : !string.IsNullOrWhiteSpace(aiSettings.OpenAi.ApiKey);
+
+        if (!hasApiKey)
+        {
+            // No API key configured — skip AI service registration
+            return services;
+        }
+
         services.AddKernel();
 
-        if (string.Equals(aiSettings.Provider, "AzureOpenAI", StringComparison.OrdinalIgnoreCase))
+        if (isAzure)
         {
             services.AddAzureOpenAIChatCompletion(
                 deploymentName: aiSettings.AzureOpenAi.ChatDeployment,
@@ -41,7 +52,7 @@ public static class AiSetup
 
         var kmBuilder = new KernelMemoryBuilder();
 
-        if (string.Equals(aiSettings.Provider, "AzureOpenAI", StringComparison.OrdinalIgnoreCase))
+        if (isAzure)
         {
             var azureConfig = new AzureOpenAIConfig
             {

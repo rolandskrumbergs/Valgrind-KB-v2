@@ -1,9 +1,7 @@
 using KB.Domain.Interfaces;
 using KB.Infrastructure;
-using KB.Infrastructure.Data;
 using KB.Operations;
 using KB.Operations.Seeding;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

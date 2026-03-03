@@ -1,1 +1,87 @@
-using KB.Core.Infrastructure;using KB.Core.Interfaces;using KB.Domain.Entities;namespace KB.Core.Features.Authentication.Login;public sealed class LoginCommandHandler(    IAuthenticationService authenticationService,    ITokenService tokenService){    private readonly IAuthenticationService _authenticationService = authenticationService;    private readonly ITokenService _tokenService = tokenService;    public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)    {        ArgumentNullException.ThrowIfNull(request);        var validationResult = ValidationHelper.Validate(request);        if (!validationResult.IsSuccess)        {            return Result<LoginResponse>.Invalid([.. validationResult.Errors]);        }        var user = await _authenticationService.GetUserByEmailWithRefreshTokensAsync(request.Email, cancellationToken);        if (user == null)        {            return Result<LoginResponse>.NotFound("Invalid email or password.");        }        if (!user.CanLogin())        {            return Result<LoginResponse>.Forbidden("Your account is locked or not confirmed.");        }        var (success, errors) = await _authenticationService.ValidateCredentialsAsync(            request.Email,            request.Password,            cancellationToken);        if (!success)        {            return Result<LoginResponse>.NotFound("Invalid email or password.");        }        if (user.TwoFactorEnabled)        {            return Result<LoginResponse>.Success(new LoginResponse(                RequiresMfa: true,                AccessToken: null,                RefreshToken: null,                UserId: user.Id));        }        if (request.IsMobileApp)        {            var roles = await _authenticationService.GetUserRolesAsync(user.Id, cancellationToken);            var role = roles.FirstOrDefault() ?? user.Role.ToString();            var accessToken = _tokenService.GenerateAccessToken(user.Id, user.Email!, role);            var refreshTokenString = _tokenService.GenerateRefreshToken();            var refreshTokenEntity = Domain.Entities.RefreshToken.Create(                refreshTokenString,                user.Id,                DateTimeOffset.UtcNow.AddDays(30));            user.RefreshTokens.Add(refreshTokenEntity);            await _authenticationService.UpdateUserAsync(user, cancellationToken);            return Result<LoginResponse>.Success(new LoginResponse(                RequiresMfa: false,                AccessToken: accessToken,                RefreshToken: refreshTokenString,                UserId: user.Id));        }        await _authenticationService.SignInAsync(user.Id, cancellationToken);        return Result<LoginResponse>.Success(new LoginResponse(            RequiresMfa: false,            AccessToken: null,            RefreshToken: null,            UserId: user.Id));    }}
+using KB.Core.Infrastructure;
+using KB.Core.Interfaces;
+using KB.Domain.Entities;
+
+namespace KB.Core.Features.Authentication.Login;
+
+public sealed class LoginCommandHandler(
+    IAuthenticationService authenticationService,
+    ITokenService tokenService)
+{
+    private readonly IAuthenticationService _authenticationService = authenticationService;
+    private readonly ITokenService _tokenService = tokenService;
+
+    public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var validationResult = ValidationHelper.Validate(request);
+        if (!validationResult.IsSuccess)
+        {
+            return Result<LoginResponse>.Invalid([.. validationResult.Errors]);
+        }
+
+        var user = await _authenticationService.GetUserByEmailWithRefreshTokensAsync(request.Email, cancellationToken);
+        if (user == null)
+        {
+            return Result<LoginResponse>.NotFound("Invalid email or password.");
+        }
+
+        if (!user.CanLogin())
+        {
+            return Result<LoginResponse>.Forbidden("Your account is locked or not confirmed.");
+        }
+
+        var (success, errors) = await _authenticationService.ValidateCredentialsAsync(
+            request.Email,
+            request.Password,
+            cancellationToken);
+
+        if (!success)
+        {
+            return Result<LoginResponse>.NotFound("Invalid email or password.");
+        }
+
+        if (user.TwoFactorEnabled)
+        {
+            return Result<LoginResponse>.Success(new LoginResponse(
+                RequiresMfa: true,
+                AccessToken: null,
+                RefreshToken: null,
+                UserId: user.Id,
+                Role: null));
+        }
+
+        var roles = await _authenticationService.GetUserRolesAsync(user.Id, cancellationToken);
+        var role = roles.FirstOrDefault() ?? user.Role.ToString();
+
+        if (request.IsMobileApp)
+        {
+            var accessToken = _tokenService.GenerateAccessToken(user.Id, user.Email!, role);
+            var refreshTokenString = _tokenService.GenerateRefreshToken();
+            var refreshTokenEntity = Domain.Entities.RefreshToken.Create(
+                refreshTokenString,
+                user.Id,
+                DateTimeOffset.UtcNow.AddDays(30));
+
+            user.RefreshTokens.Add(refreshTokenEntity);
+            await _authenticationService.UpdateUserAsync(user, cancellationToken);
+
+            return Result<LoginResponse>.Success(new LoginResponse(
+                RequiresMfa: false,
+                AccessToken: accessToken,
+                RefreshToken: refreshTokenString,
+                UserId: user.Id,
+                Role: role));
+        }
+
+        await _authenticationService.SignInAsync(user.Id, cancellationToken);
+
+        return Result<LoginResponse>.Success(new LoginResponse(
+            RequiresMfa: false,
+            AccessToken: null,
+            RefreshToken: null,
+            UserId: user.Id,
+            Role: role));
+    }
+}

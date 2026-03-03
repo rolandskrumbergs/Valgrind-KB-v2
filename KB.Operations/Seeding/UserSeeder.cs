@@ -7,16 +7,32 @@ namespace KB.Operations.Seeding;
 
 public sealed class UserSeeder(
     UserManager<ApplicationUser> userManager,
+    RoleManager<IdentityRole<Guid>> roleManager,
     ILogger<UserSeeder> logger)
 {
     public async Task SeedAsync()
     {
         logger.LogInformation("Starting user seeding...");
 
+        await SeedRolesAsync();
         await SeedAdminUserAsync();
         await SeedTestUserAsync();
 
         logger.LogInformation("User seeding completed.");
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        string[] roles = ["Admin", "User"];
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole<Guid> { Name = role });
+                logger.LogInformation("Role '{Role}' created.", role);
+            }
+        }
     }
 
     private async Task SeedAdminUserAsync()
@@ -27,6 +43,12 @@ public sealed class UserSeeder(
         var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
         if (existingAdmin is not null)
         {
+            if (!await userManager.IsInRoleAsync(existingAdmin, "Admin"))
+            {
+                await userManager.AddToRoleAsync(existingAdmin, "Admin");
+                logger.LogInformation("Added existing admin user to 'Admin' role.");
+            }
+
             logger.LogInformation("Admin user already exists, skipping.");
             return;
         }
@@ -43,6 +65,7 @@ public sealed class UserSeeder(
             return;
         }
 
+        await userManager.AddToRoleAsync(applicationUser, "Admin");
         logger.LogInformation("Admin user created successfully: {Email}", adminEmail);
     }
 

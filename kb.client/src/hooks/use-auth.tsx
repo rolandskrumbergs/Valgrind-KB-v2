@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 interface User {
   userId: string;
   email: string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -112,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { success: false, requiresMfa: true };
       }
 
-      const authUser: User = { userId: data.userId, email };
+      const authUser: User = { userId: data.userId, email, role: data.role ?? "User" };
       setUser(authUser);
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authUser));
       return { success: true };

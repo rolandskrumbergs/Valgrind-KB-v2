@@ -12,8 +12,8 @@ using KB.Server.Endpoints.Conversations;
 using KB.Server.Endpoints.ConversationStarters;
 using KB.Server.Endpoints.Organizations;
 using KB.Server.Endpoints.Subscriptions;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(options =>
     {
         return context.Request.Headers.ContainsKey("Authorization")
             ? JwtBearerDefaults.AuthenticationScheme
-            : CookieAuthenticationDefaults.AuthenticationScheme;
+            : IdentityConstants.ApplicationScheme;
     };
 })
 .AddJwtBearer(options =>
@@ -55,8 +55,9 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
     };
-})
-.AddCookie(options =>
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -66,6 +67,11 @@ builder.Services.AddAuthentication(options =>
     options.Events.OnRedirectToLogin = context =>
     {
         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
         return Task.CompletedTask;
     };
 });

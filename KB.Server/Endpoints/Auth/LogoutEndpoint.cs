@@ -1,7 +1,6 @@
 using KB.Core.Interfaces;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace KB.Server.Endpoints.Auth;
 
@@ -20,7 +19,7 @@ internal static class LogoutEndpoint
 
     private static async Task<IResult> LogoutAsync(HttpContext context)
     {
-        await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await context.SignOutAsync(IdentityConstants.ApplicationScheme);
         return Results.Ok(new { message = "Logged out successfully" });
     }
 }

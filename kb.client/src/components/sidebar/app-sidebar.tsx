@@ -16,6 +16,7 @@ import {
 import { NavGroup } from "@/components/sidebar/nav-group";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
 import { NavUser } from "@/components/sidebar/nav-user";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -57,7 +58,9 @@ const navSecondaryItems: NavItem[] = [
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const { pathname } = useLocation();
+  const { user } = useAuth();
   const currentPath = "/" + pathname.split("/").filter(Boolean)[0];
+  const isAdmin = user?.role === "Admin";
 
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
@@ -66,8 +69,8 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="sidebar-scrollbar">
         <NavGroup items={navMain} pathname={currentPath} />
-        <NavGroup label="Admin Tools" items={navAdmin} pathname={currentPath} />
-        <NavGroup label="Lena AI" items={navLena} pathname={currentPath} />
+        {isAdmin && <NavGroup label="Admin Tools" items={navAdmin} pathname={currentPath} />}
+        {isAdmin && <NavGroup label="Lena AI" items={navLena} pathname={currentPath} />}
         <NavSecondary items={navSecondaryItems} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

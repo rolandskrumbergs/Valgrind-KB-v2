@@ -10,6 +10,10 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

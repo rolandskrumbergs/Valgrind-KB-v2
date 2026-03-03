@@ -4,4 +4,5 @@ public sealed record LoginResponse(
     bool RequiresMfa,
     string? AccessToken,
     string? RefreshToken,
-    Guid? UserId);
+    Guid? UserId,
+    string? Role);

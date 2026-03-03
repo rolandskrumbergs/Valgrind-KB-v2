@@ -26,6 +26,8 @@ public class ConversationMessageConfiguration : IEntityTypeConfiguration<Convers
         builder.Property(e => e.AiProfileSnapshot)
             .HasColumnType("jsonb");
 
+        builder.HasQueryFilter(e => !e.Conversation.User.IsDeleted);
+
         builder.HasOne(e => e.Conversation)
             .WithMany(c => c.Messages)
             .HasForeignKey(e => e.ConversationId)

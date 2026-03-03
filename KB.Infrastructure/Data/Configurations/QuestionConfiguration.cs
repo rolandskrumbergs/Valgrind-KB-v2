@@ -25,6 +25,8 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
         builder.Property(e => e.Feedback)
             .HasMaxLength(2000);
 
+        builder.HasQueryFilter(e => !e.Chapter.Course.IsDeleted);
+
         builder.HasMany(e => e.Options)
             .WithOne(o => o.Question)
             .HasForeignKey(o => o.QuestionId)

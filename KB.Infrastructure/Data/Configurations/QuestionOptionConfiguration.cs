@@ -14,5 +14,7 @@ public class QuestionOptionConfiguration : IEntityTypeConfiguration<QuestionOpti
 
         builder.Property(e => e.Text)
             .HasMaxLength(1000);
+
+        builder.HasQueryFilter(e => !e.Question.Chapter.Course.IsDeleted);
     }
 }
