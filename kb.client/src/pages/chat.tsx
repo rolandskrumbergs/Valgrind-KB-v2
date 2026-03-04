@@ -18,7 +18,31 @@ interface DisplayMessage {
   id: string;
   role: string;
   content: string;
+  createdAt: string;
   isStreaming?: boolean;
+}
+
+function formatTime(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function formatDateChip(iso: string): string {
+  const d = new Date(iso);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  if (d.toDateString() === today.toDateString()) return "Idag";
+  if (d.toDateString() === yesterday.toDateString()) return "Igår";
+  return d.toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" });
+}
+
+function shouldShowDateChip(messages: DisplayMessage[], index: number): boolean {
+  if (index === 0) return true;
+  const prev = new Date(messages[index - 1].createdAt).toDateString();
+  const curr = new Date(messages[index].createdAt).toDateString();
+  return prev !== curr;
 }
 
 export function ChatPage() {
@@ -64,8 +88,9 @@ export function ChatPage() {
       setMessages(
         conv.messages.map((m) => ({
           id: m.id,
-          role: m.role,
+          role: m.role.toLowerCase(),
           content: m.content ?? "",
+          createdAt: m.createdAt,
         }))
       );
       scrollToBottom();
@@ -114,11 +139,13 @@ export function ChatPage() {
       id: crypto.randomUUID(),
       role: "user",
       content: text,
+      createdAt: new Date().toISOString(),
     };
     const assistantMsg: DisplayMessage = {
       id: crypto.randomUUID(),
       role: "assistant",
       content: "",
+      createdAt: new Date().toISOString(),
       isStreaming: true,
     };
 
@@ -272,46 +299,67 @@ export function ChatPage() {
               </div>
             )}
 
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div className="max-w-[80%] group">
-                  <div
-                    className={`rounded-lg px-4 py-2 ${
-                      msg.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap text-sm">
-                      {msg.content}
-                      {msg.isStreaming && (
-                        <span className="inline-block w-2 h-4 ml-0.5 bg-foreground/60 animate-pulse" />
-                      )}
-                    </p>
+            {messages.map((msg, idx) => (
+              <div key={msg.id}>
+                {shouldShowDateChip(messages, idx) && (
+                  <div className="flex justify-center my-3">
+                    <span className="bg-muted text-muted-foreground text-xs px-3 py-1 rounded-full">
+                      {formatDateChip(msg.createdAt)}
+                    </span>
                   </div>
-                  {msg.role === "assistant" && !msg.isStreaming && msg.content && (
-                    <div className="flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6"
-                        onClick={() => handleFeedback(msg.id, true)}
-                      >
-                        <ThumbsUp className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6"
-                        onClick={() => handleFeedback(msg.id, false)}
-                      >
-                        <ThumbsDown className="h-3 w-3" />
-                      </Button>
+                )}
+                <div
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div className="max-w-[80%] group">
+                    <div
+                      className={`rounded-lg px-4 py-2 ${
+                        msg.role === "user"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted"
+                      }`}
+                    >
+                      {msg.isStreaming && !msg.content ? (
+                        <div className="flex items-center gap-1 py-1">
+                          <span className="h-2 w-2 rounded-full bg-foreground/60 animate-bounce [animation-delay:0ms]" />
+                          <span className="h-2 w-2 rounded-full bg-foreground/60 animate-bounce [animation-delay:150ms]" />
+                          <span className="h-2 w-2 rounded-full bg-foreground/60 animate-bounce [animation-delay:300ms]" />
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap text-sm">
+                          {msg.content}
+                          {msg.isStreaming && (
+                            <span className="inline-block w-2 h-4 ml-0.5 bg-foreground/60 animate-pulse" />
+                          )}
+                        </p>
+                      )}
                     </div>
-                  )}
+                    <div className={`flex items-center gap-1 mt-1 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                      <span className="text-[10px] text-muted-foreground">
+                        {formatTime(msg.createdAt)}
+                      </span>
+                      {msg.role === "assistant" && !msg.isStreaming && msg.content && (
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6"
+                            onClick={() => handleFeedback(msg.id, true)}
+                          >
+                            <ThumbsUp className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6"
+                            onClick={() => handleFeedback(msg.id, false)}
+                          >
+                            <ThumbsDown className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
